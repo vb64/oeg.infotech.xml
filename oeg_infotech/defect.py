@@ -67,6 +67,31 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
 
         return obj
 
+    def as_csv_row(self, infotech, with_navigation=False):
+        """
+        return list of defect field values for csv string
+        """
+        method = ''
+        if self.method_id in infotech.obj_dict:
+            method = infotech.obj_dict[self.method_id]
+
+        columns = [
+          "{}".format(self.length),
+          "{}".format(self.width),
+          "{}".format(self.loss_min),
+          "{}".format(self.loss_max),
+          self.orient_start.replace('.', ','),
+          self.orient_end.replace('.', ','),
+          self.kbd,
+          self.safe_pressure,
+          self.time_limit,
+          self.safe_pressure_persent,
+          method,
+        ]
+        base_columns = super(Item, self).as_csv_row(infotech, with_navigation=with_navigation)
+
+        return [self.number] + base_columns[:2] + columns + base_columns[2:]
+
     def reverse(self, total_length, object_index):
         """
         reverse defect
@@ -123,6 +148,19 @@ class Section(InfotechSection):
 
     def __init__(self, infotech):
         super(Section, self).__init__(infotech, Item, 'DEFECTS')
+
+    def as_csv(self, with_navigation=False):
+        """
+        dump defects section content as csv string
+        """
+        column_titles = [
+          'Number',
+          'Name', 'Distance',
+          'Length', 'Width', 'Loss min', 'Loss max', 'Orient start', 'Orient end',
+          'KBD', 'Safe pressure', 'Time limit', 'Press percent', 'Method',
+          'Comment',
+        ]
+        return super(Section, self).as_csv_body('Defects table', column_titles, with_navigation=with_navigation)
 
     def danger_stats(self):
         """

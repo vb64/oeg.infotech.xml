@@ -2,6 +2,7 @@
 """
 Infotech staff
 """
+import csv
 try:
     from StringIO import StringIO
     from StringIO import StringIO as BytesIO
@@ -160,6 +161,25 @@ class DistItem(AbstractItem):
         self.coord_height = xml_item.attrib.get(DistItem.field_coord_height, None)
         self.coord_system = xml_item.attrib.get(DistItem.field_coord_system, None)
 
+    def as_csv_row(self, infotech, with_navigation=False):
+        """
+        return list of item fields for csv output
+        """
+        suffix = []
+        if with_navigation:
+            suffix = [
+              self.coord_longitude,
+              self.coord_latitude,
+              self.coord_height,
+              self.coord_system,
+            ]
+
+        return [
+          infotech.obj_dict[self.objtype],
+          "{}".format(self.dist),
+          self.comment,
+        ] + suffix
+
     def reverse(self, total_length, _object_index):
         """
         reverse object distance
@@ -206,6 +226,26 @@ class Section(object):
                     self._items.append(item)
 
         return self._items
+
+    def as_csv_body(self, title, column_titles, with_navigation=False):
+        """
+        dump section as csv string
+        """
+        output = StringIO()
+        writer = csv.writer(output, delimiter=';', lineterminator='\n')
+
+        writer.writerow([title] + ['' for _tmp in column_titles][1:])
+        writer.writerow(column_titles)
+        for item in self.items:
+            writer.writerow([
+              field.encode(self.infotech.codepage)
+              for field in item.as_csv_row(self.infotech, with_navigation=with_navigation)
+            ])
+
+        content = output.getvalue()
+        output.close()
+
+        return content
 
     def rebuild_xml(self):
         """

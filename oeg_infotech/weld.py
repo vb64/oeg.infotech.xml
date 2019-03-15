@@ -51,6 +51,21 @@ class Item(DistItem):
         """
         return self.dist + self.length
 
+    def as_csv_row(self, infotech, with_navigation=False):
+        """
+        return list of field values for csv string
+        """
+        columns = [
+          self.number,
+          "{}".format(self.length),
+          self.thick.replace('.', ','),
+          self.hor1.replace('.', ','),
+          self.hor2.replace('.', ','),
+        ]
+        base_columns = super(Item, self).as_csv_row(infotech, with_navigation=with_navigation)
+
+        return base_columns[:2] + columns + base_columns[2:]
+
     def reverse(self, total_length, object_index):
         """
         reverse weld
@@ -90,6 +105,15 @@ class Section(InfotechSection):
 
     def __init__(self, infotech):
         super(Section, self).__init__(infotech, Item, 'WELDS')
+
+    def as_csv(self, with_navigation=False):
+        """
+        dump weld section content as csv string
+        """
+        column_titles = [
+          'Name', 'Distance', 'Tube number', 'Tube length', 'Thick', 'Weld1', 'Weld2', 'Comment'
+        ]
+        return super(Section, self).as_csv_body('Welds table', column_titles, with_navigation=with_navigation)
 
     def add_tube(self, objtype, tube_dist, tube_length):
         """

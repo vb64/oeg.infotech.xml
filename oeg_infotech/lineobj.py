@@ -59,6 +59,15 @@ class Item(DistItem):
 
         return obj
 
+    def as_csv_row(self, infotech, with_navigation=False):
+        """
+        return list of lineobj field values for csv string
+        """
+        columns = [self.marker_name, self.piketag_km]
+        base_columns = super(Item, self).as_csv_row(infotech, with_navigation=with_navigation)
+
+        return base_columns[:2] + columns + base_columns[2:]
+
     def add_xml_child(self, parent_node):
         """
         create and add lineobj xml node of object to parent xml node
@@ -93,3 +102,12 @@ class Section(InfotechSection):
 
     def __init__(self, infotech):
         super(Section, self).__init__(infotech, Item, Section.section_tag)
+
+    def as_csv(self, with_navigation=False):
+        """
+        dump lineobj section content as csv string
+        """
+        column_titles = [
+          'Name', 'Distance', 'Marker', 'Piketag', 'Comment'
+        ]
+        return super(Section, self).as_csv_body('Line objects table', column_titles, with_navigation=with_navigation)
