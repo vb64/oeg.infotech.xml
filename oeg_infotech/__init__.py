@@ -3,12 +3,7 @@
 Infotech staff
 """
 import csv
-try:
-    from StringIO import StringIO
-    from StringIO import StringIO as BytesIO
-except ImportError:
-    from io import StringIO, BytesIO
-
+from StringIO import StringIO, StringIO as BytesIO  # pylint: disable=reimported
 from .ordered_attrib import ET
 
 
