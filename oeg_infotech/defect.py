@@ -2,7 +2,8 @@
 DEFECTS section
 """
 from .ordered_attrib import ET
-from . import Section as InfotechSection, DistItem, to_int, reverse_orient
+from .base import Section as InfotechSection, DistItem, to_int
+from . import reverse_orient
 
 
 class Item(DistItem):  # pylint: disable=too-many-instance-attributes

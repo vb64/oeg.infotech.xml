@@ -2,7 +2,7 @@
 LINEOBJS section
 """
 from .ordered_attrib import ET
-from . import Section as InfotechSection, DistItem
+from .base import Section as InfotechSection, DistItem
 from .codes import Feature
 
 

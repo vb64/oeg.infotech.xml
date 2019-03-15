@@ -56,7 +56,8 @@ class TestCommands(TestInfotech):
         """
         reverse
         """
-        from oeg_infotech import Infotech, DistItem, lineobj, codes
+        from oeg_infotech import Infotech, lineobj, codes
+        from oeg_infotech.base import DistItem
 
         info = Infotech.from_file(self.fixture('1736.xml'))
         self.assertEqual(info.total_dist(), 17727)
