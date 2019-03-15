@@ -6,18 +6,6 @@ from StringIO import StringIO, StringIO as BytesIO  # pylint: disable=reimported
 from .ordered_attrib import ET
 
 
-def orient_to_str(val):
-    """
-    horizontal weld orientation (minutes, int) to string (hours, float)
-    """
-    if val >= 0:
-        hours = int(val / 60)
-        hours_float = int(round((val - hours * 60) / 6.0, 0))
-        return "{}.{}".format(hours, hours_float)
-
-    return ''
-
-
 def reverse_orient(orient):
     """
     reverse orientation
