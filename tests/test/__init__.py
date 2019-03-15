@@ -28,7 +28,9 @@ class TestInfotech(TestCase):
         for item in data:
             self.assertIn(item, sample)
 
-    def compare_xml_attrib(self, section_name, index, data, sample, name):  # pylint: disable=too-many-arguments
+    def compare_xml_attrib(
+      self, section_name, index, data, sample, name
+    ):  # pylint: disable=too-many-arguments
         """
         compare xml attrib value for generated (data) and fixture (sample) item
         """

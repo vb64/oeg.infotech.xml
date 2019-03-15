@@ -29,8 +29,8 @@ verbose:
 	$(PYTHON) $(TESTS)/run_tests.py verbose
 
 flake8:
-	$(PYTHON) -m flake8 --max-line-length=110 $(TESTS)
-	$(PYTHON) -m flake8 --max-line-length=110 $(SOURCE)
+	$(PYTHON) -m flake8 --max-line-length=120 $(TESTS)
+	$(PYTHON) -m flake8 --max-line-length=120 $(SOURCE)
 
 lint:
 	$(PYTHON) -m pylint $(TESTS)/test

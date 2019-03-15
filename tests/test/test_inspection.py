@@ -31,4 +31,8 @@ class TestInspection(TestInfotech):
         from oeg_infotech import Infotech
 
         info = Infotech.from_file(self.fixture('1736.xml'))
-        self.compare_xml(info.xml, Infotech.from_file(self.fixture('1736.xml')).xml, is_navigate=info.is_navigate)
+        self.compare_xml(
+          info.xml,
+          Infotech.from_file(self.fixture('1736.xml')).xml,
+          is_navigate=info.is_navigate
+        )
