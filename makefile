@@ -29,12 +29,21 @@ verbose:
 	$(PYTHON) $(TESTS)/run_tests.py verbose
 
 flake8:
-	$(PYTHON) -m flake8 --max-line-length=120 $(TESTS)
-	$(PYTHON) -m flake8 --max-line-length=120 $(SOURCE)
+	$(PYTHON) -m flake8 --max-line-length=110 $(TESTS)
+	$(PYTHON) -m flake8 --max-line-length=110 $(SOURCE)
 
 lint:
 	$(PYTHON) -m pylint $(TESTS)/test
 	$(PYTHON) -m pylint $(SOURCE)
+
+dist:
+	$(PYTHON) setup.py sdist bdist_wheel
+
+upload_piptest: tests dist
+	$(PYTHON) -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+
+upload_pip: tests dist
+	$(PYTHON) -m twine upload dist/*
 
 setup: setup_python setup_pip
 
