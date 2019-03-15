@@ -14,7 +14,7 @@ COVERAGE = $(PYTHON) -m coverage
 all: tests
 
 test:
-	$(PYTHON) tests/run_tests.py test.$(T)
+	$(PYTHON) $(TESTS)/run_tests.py test.$(T)
 
 html:
 	$(COVERAGE) html --skip-covered
