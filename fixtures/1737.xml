@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<IPL_INSPECT NLCH="Челябинск-Петровск" PLACE="(923,572 - 924) км" L1="923,572" KZ_TYPE="2" L2="924" KP_TYPE="2" ISP="Оргэнергогаз, ОАО" INSPECTION_START_DATE="01.06.2018" INSPECTION_END_DATE="01.06.2018">
+    <TYPEOBJS>
+        <TYPEOBJ IDTYPEOBJ="0">
+            <TITLE>МДР-1400</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="1">
+            <TITLE>МДПР-1400</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="2097791">
+            <TITLE>одношовная</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="6907370">
+            <TITLE>Инструкция по оценке дефектов труб... ООО Газнадзор, 2013</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990004033563">
+            <TITLE>Дефектоскоп магнитный поперечного намагничивания</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990004698869">
+            <TITLE>потеря металла</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990005096296">
+            <TITLE>Дефектоскоп магнитный продольного намагничивания</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990006537218">
+            <TITLE>металл снаружи</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990006537229">
+            <TITLE>Маркер</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990006537234">
+            <TITLE>Заварка окна</TITLE>
+        </TYPEOBJ>
+    </TYPEOBJS>
+    <DEFECTS>
+        <DEF IDTYPEOBJ="990004698869" ODOMETER="3058" L_OTCH="1610" W_OTCH="223" V_MIN_OTCH="5" V_MAX_OTCH="5" ORIENT1="7.3" ORIENT2="8.0" NUMDEF="2" REM="" KBD="0.70" PBEZ="" TIME_LIMIT="15.965" PBEZ_PERCENT="" METHOD="6907370" />
+        <DEF IDTYPEOBJ="990006537218" ODOMETER="3423" L_OTCH="280" W_OTCH="361" V_MIN_OTCH="" V_MAX_OTCH="" ORIENT1="5.2" ORIENT2="6.2" NUMDEF="3" REM="" KBD="" PBEZ="" TIME_LIMIT="" PBEZ_PERCENT="" METHOD="" />
+    </DEFECTS>
+    <LINEOBJS>
+        <PLOBJ IDTYPEOBJ="990006537229" ODOMETER="0" NAME_MARKER="М1" L_LCH="" REM="М1 (лоток запуска) 924 км" />
+        <PLOBJ IDTYPEOBJ="990006537234" ODOMETER="5107" NAME_MARKER="" L_LCH="" REM="Заварка окна 300х260мм без подкладного кольца" />
+        <PLOBJ IDTYPEOBJ="990006537234" ODOMETER="5219" NAME_MARKER="" L_LCH="" REM="Заварка окна 320х260мм с подкладным кольцом" />
+        <PLOBJ IDTYPEOBJ="990006537229" ODOMETER="5557" NAME_MARKER="М2" L_LCH="" REM="М2 (лоток приема) 923,572 км" />
+    </LINEOBJS>
+    <WELDS>
+        <WLD IDTYPEOBJ="2097791" ODOMETER="0" NUM_TUBE="1" DL_TUBE="945" THICK="19.5" PSH1="4.1" PSH2="" REM="" />
+        <WLD IDTYPEOBJ="2097791" ODOMETER="945" NUM_TUBE="2" DL_TUBE="1155" THICK="19.5" PSH1="3.6" PSH2="" REM="" />
+        <WLD IDTYPEOBJ="2097791" ODOMETER="2100" NUM_TUBE="3" DL_TUBE="1159" THICK="19.5" PSH1="5.0" PSH2="" REM="" />
+        <WLD IDTYPEOBJ="2097791" ODOMETER="3259" NUM_TUBE="4" DL_TUBE="1167" THICK="19.5" PSH1="11.0" PSH2="" REM="" />
+        <WLD IDTYPEOBJ="2097791" ODOMETER="4426" NUM_TUBE="5" DL_TUBE="1163" THICK="19.5" PSH1="4.6" PSH2="" REM="" />
+    </WELDS>
+    <PIGPASS>
+        <PASS IDTYPEOBJ="0" DATE1="25.05.2018 18:10:00" DATE2="25.05.2018 18:14:00" SPEED_AVERAGE="0.34" REM="" MANUFACTURER="Саратоворгдиагностика" MANUFACT_DATE="2010" PIGTYPE="990005096296" OBSLTYPE="2" />
+        <PASS IDTYPEOBJ="1" DATE1="25.05.2018 18:37:00" DATE2="25.05.2019 18:41:00" SPEED_AVERAGE="0.34" REM="" MANUFACTURER="Саратоворгдиагностика" MANUFACT_DATE="2010" PIGTYPE="990004033563" OBSLTYPE="5" />
+    </PIGPASS>
+</IPL_INSPECT>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<IPL_INSPECT NLCH="МГ Новопсков-Аксай-Моздок" PLACE="333 - 158 км (навигационный с изменениями)" L1="333" KZ_TYPE="5" L2="158" KP_TYPE="5" ISP="Оргэнергогаз, ОАО" INSPECTION_START_DATE="26.08.2011" INSPECTION_END_DATE="31.08.2011">
+    <TYPEOBJS>
+        <TYPEOBJ IDTYPEOBJ="0">
+            <TITLE>WGS-84</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="1">
+            <TITLE>НП ВИС -1200</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="2">
+            <TITLE>МДР-1200</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="2097790">
+            <TITLE>неопределенная секция</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="2097791">
+            <TITLE>одношовная</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="2097792">
+            <TITLE>двушовная</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="3760623">
+            <TITLE>Механическое повреждение</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="110000924874">
+            <TITLE>Шаровой кран</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="240000166873">
+            <TITLE>Технологический дефект</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990004033566">
+            <TITLE>Поршень-дефектоскоп (навигационно-топографический)</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990004698855">
+            <TITLE>поперечная канавка</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990004698869">
+            <TITLE>потеря металла</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990005096276">
+            <TITLE>Инструкция по оценке дефектов труб... ООО Газнадзор, 2006/2008</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990005096296">
+            <TITLE>Дефектоскоп магнитный продольного намагничивания</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990006537187">
+            <TITLE>Аномалия кольцевого шва</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990006537198">
+            <TITLE>Аномалия неизвестной природы</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990006537199">
+            <TITLE>Заводской дефект</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990006537218">
+            <TITLE>металл снаружи</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990006537229">
+            <TITLE>Маркер</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990006537234">
+            <TITLE>Заварка окна</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990006537238">
+            <TITLE>Нераспознанный объект</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990006537240">
+            <TITLE>Отвод-врезка</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990006537241">
+            <TITLE>Патрон конец</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990006537242">
+            <TITLE>Патрон начало</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990006537245">
+            <TITLE>Пригруз кольцевой</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990006537250">
+            <TITLE>Отвод (поворот) конец</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990006537252">
+            <TITLE>Отвод (поворот) начало</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990007183153">
+            <TITLE>Тройник</TITLE>
+        </TYPEOBJ>
+        <TYPEOBJ IDTYPEOBJ="990007289502">
+            <TITLE>каверна</TITLE>
+        </TYPEOBJ>
+    </TYPEOBJS>
+    <DEFECTS>
+        <DEF IDTYPEOBJ="990006537198" ODOMETER="54995" L_OTCH="60" W_OTCH="227" V_MIN_OTCH="" V_MAX_OTCH="" ORIENT1="9.7" ORIENT2="10.4" NUMDEF="5" REM="эквивалент потери металла 5-8%" KBD="" PBEZ="" TIME_LIMIT="" PBEZ_PERCENT="" METHOD="" L="47.817278" B="39.551271" H="192.36300" SRID="0" />
+        <DEF IDTYPEOBJ="990006537198" ODOMETER="55020" L_OTCH="80" W_OTCH="126" V_MIN_OTCH="" V_MAX_OTCH="" ORIENT1="7.6" ORIENT2="8.0" NUMDEF="6" REM="эквивалент потери металла 5-5%" KBD="" PBEZ="" TIME_LIMIT="" PBEZ_PERCENT="" METHOD="" L="47.817276" B="39.551272" H="192.36800" SRID="0" />
+    </DEFECTS>
+    <LINEOBJS>
+        <PLOBJ IDTYPEOBJ="110000924874" ODOMETER="0" NAME_MARKER="К1" L_LCH="" REM="К1 №44 (КЗОУ) секущий 333 км" L="39.549446" B="47.822039" H="183.63900" SRID="0" />
+        <PLOBJ IDTYPEOBJ="990007183153" ODOMETER="348" NAME_MARKER="" L_LCH="" REM="Ду 1200 влево" L="39.549459" B="47.822009" H="183.78000" SRID="0" />
+    </LINEOBJS>
+    <WELDS>
+        <WLD IDTYPEOBJ="2097790" ODOMETER="0" NUM_TUBE="1" DL_TUBE="121" THICK="25.5" PSH1="" PSH2="" REM="" L="39.549446" B="47.822039" H="183.64400" SRID="0" />
+        <WLD IDTYPEOBJ="2097790" ODOMETER="121" NUM_TUBE="2" DL_TUBE="47" THICK="15.2" PSH1="" PSH2="" REM="" L="39.549450" B="47.822029" H="183.63900" SRID="0" />
+    </WELDS>
+    <PIGPASS>
+        <PASS IDTYPEOBJ="1" DATE1="27.08.2011 15:09:00" DATE2="28.08.2011 8:57:00" SPEED_AVERAGE="10.10" REM="" MANUFACTURER="Саратоворгдиагностика" MANUFACT_DATE="2006" PIGTYPE="990004033566" OBSLTYPE="3" />
+        <PASS IDTYPEOBJ="2" DATE1="31.08.2011 15:28:00" DATE2="01.09.2011 12:55:00" SPEED_AVERAGE="8.22" REM="" MANUFACTURER="Саратоворгдиагностика" MANUFACT_DATE="2007" PIGTYPE="990005096296" OBSLTYPE="2" />
+    </PIGPASS>
+</IPL_INSPECT>

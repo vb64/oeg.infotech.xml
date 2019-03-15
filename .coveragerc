@@ -1,0 +1,6 @@
+[run]
+branch = True
+source = oeg_infotech/
+
+[html]
+directory = htmlcov
