@@ -12,14 +12,6 @@ except ImportError:
 from .ordered_attrib import ET
 
 
-def to_coord(val, delit, decim):
-    """
-    int to coord string
-    """
-    mask = "%0." + str(decim) + "f"
-    return mask % round(val / delit, decim)
-
-
 def orient_to_str(val):
     """
     horizontal weld orientation (minutes, int) to string (hours, float)
@@ -30,23 +22,6 @@ def orient_to_str(val):
         return "{}.{}".format(hours, hours_float)
 
     return ''
-
-
-def int_to_string(val):
-    """
-    convert integer to string
-    """
-    if val:
-        return str(val)
-
-    return ''
-
-
-def datetime_to_string(val):
-    """
-    convert datetime to string
-    """
-    return val.strftime("%d.%m.%Y %H:%M:%S")
 
 
 def to_int(text):
