@@ -108,3 +108,18 @@ class TestInfotech(TestCase):
         self.compare_xml_section('WELDS', d_root, s_root, is_navigate=is_navigate)
         self.compare_xml_section('LINEOBJS', d_root, s_root, is_navigate=is_navigate)
         self.compare_xml_section('DEFECTS', d_root, s_root, is_navigate=is_navigate, is_kbd=True)
+
+    @staticmethod
+    def dump_xml(xmltree):
+        """
+        Debug dump
+        dump_xml(Infotech.xml)
+        """
+        root = xmltree.getroot()
+        print("#", root.tag)
+        print("#", root.attrib)
+
+        for child in root:
+            print(child.tag, child.attrib)
+            for item in child:
+                print("#", item.tag, item.attrib)

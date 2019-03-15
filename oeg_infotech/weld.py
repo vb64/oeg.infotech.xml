@@ -2,7 +2,8 @@
 WELDS section
 """
 from .ordered_attrib import ET
-from . import DistItem, Section as InfotechSection, to_int, reverse_orient
+from .base import DistItem, Section as InfotechSection, to_int
+from . import reverse_orient
 
 
 class Item(DistItem):

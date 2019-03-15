@@ -4,7 +4,7 @@ PIGPASS section
 """
 from .ordered_attrib import ET
 from .codes import PassType
-from . import Section as InfotechSection, AbstractItem
+from .base import Section as InfotechSection, AbstractItem
 
 
 class Item(AbstractItem):
