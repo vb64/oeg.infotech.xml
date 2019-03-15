@@ -255,20 +255,6 @@ class Section(object):
             items.append(item)
 
 
-def dump_xml(xmltree):
-    """
-    Debug dump
-    """
-    root = xmltree.getroot()
-    print("#", root.tag)
-    print("#", root.attrib)
-
-    for child in root:
-        print(child.tag, child.attrib)
-        for item in child:
-            print("#", item.tag, item.attrib)
-
-
 class Infotech(object):
     """
     Infotech xml export
@@ -304,7 +290,6 @@ class Infotech(object):
         self.pigpass = pigpass.Section(self)
 
     def __unicode__(self):
-        # dump_xml(self.xml)
         output = BytesIO()
         self.xml.write(output, encoding=self.codepage)
 
