@@ -40,6 +40,7 @@ class TestInit(TestInfotech):
         self.assertEqual(len(info.lineobjects.items), 6)
 
         self.assertIn('IPL_INSPECT', "{}".format(info))
+        self.assertTrue(len(info.defects.as_csv()) > 0)
 
     def test_navigation(self):
         """
@@ -49,14 +50,3 @@ class TestInit(TestInfotech):
 
         info = Infotech.from_file(self.fixture('navigation.xml'))
         self.assertIn('IPL_INSPECT', info.reverse())
-
-    def test_orient_to_str(self):
-        """
-        orient_to_str
-        """
-        from oeg_infotech import orient_to_str
-
-        self.assertEqual(orient_to_str(-1), '')
-        self.assertEqual(orient_to_str(0), '0.0')
-        self.assertEqual(orient_to_str(617), '10.3')
-        self.assertEqual(orient_to_str(72), '1.2')
