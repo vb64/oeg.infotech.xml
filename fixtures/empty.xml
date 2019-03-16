@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<IPL_INSPECT NLCH="МГ Челябинск-Петровск" PLACE="923,572-924 км (участок №1 L=195м)" L1="923,572" KZ_TYPE="2" L2="924" KP_TYPE="2" ISP="Оргэнергогаз, ОАО" INSPECTION_START_DATE="01.06.2018" INSPECTION_END_DATE="01.06.2018">
+    <TYPEOBJS>
+    </TYPEOBJS>
+    <DEFECTS>
+    </DEFECTS>
+    <LINEOBJS>
+    </LINEOBJS>
+    <WELDS>
+    </WELDS>
+    <PIGPASS>
+    </PIGPASS>
+</IPL_INSPECT>
