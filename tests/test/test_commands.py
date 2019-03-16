@@ -103,3 +103,6 @@ class TestCommands(TestInfotech):
         self.assertEqual(pig.attrib.get('MANUFACT_DATE', None), '2017')
         self.assertEqual(pig.attrib.get('PIGTYPE', None), '990004033563')
         self.assertEqual(pig.attrib.get('OBSLTYPE', None), '2')
+
+        info = Infotech.from_file(self.fixture('empty.xml'))
+        info.fix()
