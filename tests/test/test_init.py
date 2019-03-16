@@ -40,6 +40,7 @@ class TestInit(TestInfotech):
         self.assertEqual(len(info.lineobjects.items), 6)
 
         self.assertIn('IPL_INSPECT', "{}".format(info))
+        self.assertTrue(len(info.defects.as_csv()) > 0)
 
     def test_navigation(self):
         """
