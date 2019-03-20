@@ -102,6 +102,9 @@ class Section(InfotechSection):
         """
         is navigate data present
         """
+        if not self._items:
+            return False
+
         for pigpass in self._items:
             if pigpass.insptype in [PassType.NAVIGATE, PassType.COMPLEX_NAV]:
                 return True
