@@ -2,7 +2,7 @@
 # make tests >debug.log 2>&1
 
 ifeq ($(OS),Windows_NT)
-PYTHON = venv\Scripts\python.exe
+PYTHON = venv/Scripts/python.exe
 else
 PYTHON = ./venv/bin/python
 endif
