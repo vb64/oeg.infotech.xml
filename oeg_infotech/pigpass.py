@@ -5,6 +5,7 @@ PIGPASS section
 from .ordered_attrib import ET
 from .codes import PassType
 from .base import Section as InfotechSection, AbstractItem
+from . import XmlFormat
 
 
 class Item(AbstractItem):
@@ -28,7 +29,11 @@ class Item(AbstractItem):
     field_pigtype = 'PIGTYPE'
     field_insptype = 'OBSLTYPE'
 
-    def __init__(self):
+    # IUST fields
+    field_iust_type = 'IUSTTYPE'
+
+    def __init__(self, xml_format=XmlFormat.Infotech):
+        self.xml_format = xml_format
         self.pig = None
         self.objtype = None
         self.date1 = None
@@ -40,12 +45,14 @@ class Item(AbstractItem):
         self.pigtype = None
         self.insptype = None
 
+        self.iust_type = None
+
     @classmethod
-    def from_xml(cls, xml_item):
+    def from_xml(cls, xml_item, xml_format=XmlFormat.Infotech):
         """
         create item from xml item
         """
-        obj = cls()
+        obj = cls(xml_format=xml_format)
 
         obj.objtype = xml_item.attrib[Item.field_typeobj]
         obj.date1 = xml_item.attrib[Item.field_date1]
@@ -56,6 +63,9 @@ class Item(AbstractItem):
         obj.manufac_date = xml_item.attrib[Item.field_manufac_date]
         obj.pigtype = xml_item.attrib[Item.field_pigtype]
         obj.insptype = xml_item.attrib[Item.field_insptype]
+
+        if obj.xml_format == XmlFormat.Iust:
+            obj.iust_type = xml_item.attrib[Item.field_iust_type]
 
         return obj
 
@@ -74,6 +84,9 @@ class Item(AbstractItem):
         node.set(Item.field_manufac_date, self.manufac_date)
         node.set(Item.field_pigtype, self.pigtype)
         node.set(Item.field_insptype, self.insptype)
+
+        if self.xml_format == XmlFormat.Iust:
+            node.set(Item.field_iust_type, self.iust_type)
 
         return node
 
