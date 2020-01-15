@@ -1,4 +1,3 @@
-# coding: windows-1251
 """
 PIGPASS section
 """
@@ -30,7 +29,7 @@ class Item(AbstractItem):
     field_insptype = 'OBSLTYPE'
 
     # IUST fields
-    field_iust_type = 'IUSTTYPE'
+    field_iust_type = 'IUST_TYPE'
 
     def __init__(self, xml_format=XmlFormat.Infotech):
         self.xml_format = xml_format
