@@ -6,6 +6,14 @@ from StringIO import StringIO, StringIO as BytesIO  # pylint: disable=reimported
 from .ordered_attrib import ET
 
 
+class XmlFormat(object):  # pylint: disable=too-few-public-methods
+    """
+    xml type
+    """
+    Infotech = 0
+    Iust = 1
+
+
 def reverse_orient(orient):
     """
     reverse orientation
@@ -71,10 +79,11 @@ class Infotech(object):
 </IPL_INSPECT>
 """
 
-    def __init__(self, codepage="windows-1251"):
+    def __init__(self, codepage="windows-1251", xml_format=XmlFormat.Infotech):
         self.xml = ET.parse(StringIO(self.template))
         self.obj_dict = {}
         self.codepage = codepage
+        self.xml_format = xml_format
         self.is_navigate = None
 
         from . import defect, weld, lineobj, pigpass
