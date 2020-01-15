@@ -45,7 +45,9 @@ upload_pip: tests dist
 setup: setup_python setup_pip
 
 setup_pip:
+	$(PYTHON) -m pip install --upgrade pip
 	$(PYTHON) -m pip install -r tests/requirements.txt
 
 setup_python:
+	$(PYTHON_BIN) -m pip install virtualenv
 	$(PYTHON_BIN) -m virtualenv ./venv
