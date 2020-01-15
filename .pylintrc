@@ -15,7 +15,7 @@ ignore=CVS,ordered_attrib.py
 
 # Python code to execute, usually for sys.path manipulation such as
 # pygtk.require().
-init-hook=from tests.run_tests import path_setup; path_setup()
+init-hook=from tests.conftest import path_setup; path_setup()
 
 # Use multiple processes to speed up Pylint.
 jobs=1

@@ -7,6 +7,5 @@ install:
 
 script:
 - python -m flake8 --max-line-length=120 oeg_infotech
-- python -m coverage run tests/run_tests.py
+- pytest --cov=oeg_infotech --cov-report term:skip-covered --durations=5 tests
 - python -m coveralls
-- python -m coverage report --skip-covered

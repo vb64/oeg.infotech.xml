@@ -3,30 +3,27 @@
 
 ifeq ($(OS),Windows_NT)
 PYTHON = venv/Scripts/python.exe
+PTEST = venv/Scripts/pytest.exe
+COVERAGE = venv/Scripts/coverage.exe
 else
 PYTHON = ./venv/bin/python
+PTEST = ./venv/bin/pytest
+COVERAGE = ./venv/bin/coverage
 endif
 
 SOURCE = oeg_infotech
 TESTS = tests
-COVERAGE = $(PYTHON) -m coverage
+PYTEST = $(PTEST) --cov=$(SOURCE) --cov-report term:skip-covered
 
 all: tests
 
 test:
-	$(PYTHON) $(TESTS)/run_tests.py test.$(T)
-
-html:
+	$(PYTEST) -s --cov-append $(TESTS)/test/$(T)
 	$(COVERAGE) html --skip-covered
 
-coverage:
-	$(COVERAGE) run $(TESTS)/run_tests.py
-
-tests: flake8 lint coverage html
-	$(COVERAGE) report --skip-covered
-
-verbose:
-	$(PYTHON) $(TESTS)/run_tests.py verbose
+tests: flake8 lint
+	$(PYTEST) --durations=5 $(TESTS)
+	$(COVERAGE) html --skip-covered
 
 flake8:
 	$(PYTHON) -m flake8 --max-line-length=120 $(TESTS)
