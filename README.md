@@ -9,7 +9,7 @@
 ## Установка
 
 ```
-$ pip install oeg_infotech
+$ pip install oeg-infotech
 ```
 
 ## Использование
