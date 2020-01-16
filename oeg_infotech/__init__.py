@@ -102,11 +102,11 @@ class Infotech(object):
         return self.__unicode__()
 
     @classmethod
-    def from_file(cls, file_name):
+    def from_file(cls, file_name, xml_format=XmlFormat.Infotech):
         """
         load data from xml file
         """
-        obj = cls()
+        obj = cls(xml_format=xml_format)
         obj.xml = ET.parse(file_name)
         sect = obj.xml.getroot().find(obj.typobj_section)
         obj.obj_dict = {typ.attrib[obj.typobj_id]: typ.find(obj.typobj_title).text for typ in sect}

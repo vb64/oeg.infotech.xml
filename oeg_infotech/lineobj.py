@@ -63,7 +63,7 @@ class Item(DistItem):
         obj.fill_from_xml(xml_item)
 
         if obj.xml_format == XmlFormat.Iust:
-            obj.iust_type = xml_item.attrib[Item.field_iust_type]
+            obj.iust_type = xml_item.attrib.get(Item.field_iust_type, '')
 
         obj.marker_name = xml_item.attrib[Item.field_name_marker]
         obj.piketag_km = xml_item.attrib[Item.field_piketag_km]
@@ -107,16 +107,19 @@ class Section(InfotechSection):
     """
     <LINEOBJS> xml section
     """
-    section_tag = 'LINEOBJS'
-
-    item_attributes = DistItem.dist_attribs + [
-      Item.field_name_marker,
-      Item.field_piketag_km,
-      DistItem.field_comment,
-    ] + DistItem.coords_attribs
+    tag = 'LINEOBJS'
 
     def __init__(self, infotech):
-        super(Section, self).__init__(infotech, Item, Section.section_tag)
+        super(Section, self).__init__(infotech, Item, Section.tag)
+
+        self.item_attributes = DistItem.dist_attribs + [
+          Item.field_name_marker,
+          Item.field_piketag_km,
+          DistItem.field_comment,
+        ] + DistItem.coords_attribs
+
+        if infotech.xml_format == XmlFormat.Iust:
+            self.item_attributes.append(Item.field_iust_type)
 
     def as_csv(self, with_navigation=False):
         """

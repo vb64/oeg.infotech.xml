@@ -74,6 +74,9 @@ class Item(AbstractItem):
         """
         node = ET.SubElement(parent_node, Item.xml_node_name)
 
+        if self.xml_format == XmlFormat.Iust:
+            node.set(Item.field_iust_type, self.iust_type)
+
         node.set(Item.field_typeobj, self.objtype)
         node.set(Item.field_date1, self.date1)
         node.set(Item.field_date2, self.date2)
@@ -82,10 +85,6 @@ class Item(AbstractItem):
         node.set(Item.field_manufacturer, self.manufacturer)
         node.set(Item.field_manufac_date, self.manufac_date)
         node.set(Item.field_pigtype, self.pigtype)
-
-        if self.xml_format == XmlFormat.Iust:
-            node.set(Item.field_iust_type, self.iust_type)
-
         node.set(Item.field_insptype, self.insptype)
 
         return node
@@ -95,21 +94,25 @@ class Section(InfotechSection):
     """
     <PIGPASS> xml section
     """
-    section_tag = 'PIGPASS'
-    item_attributes = [
-      Item.field_typeobj,
-      Item.field_date1,
-      Item.field_date2,
-      Item.field_speed,
-      Item.field_rem,
-      Item.field_manufacturer,
-      Item.field_manufac_date,
-      Item.field_pigtype,
-      Item.field_insptype,
-    ]
+    tag = 'PIGPASS'
 
     def __init__(self, infotech):
-        super(Section, self).__init__(infotech, Item, Section.section_tag)
+        super(Section, self).__init__(infotech, Item, Section.tag)
+
+        self.item_attributes = [
+          Item.field_typeobj,
+          Item.field_date1,
+          Item.field_date2,
+          Item.field_speed,
+          Item.field_rem,
+          Item.field_manufacturer,
+          Item.field_manufac_date,
+          Item.field_pigtype,
+          Item.field_insptype,
+        ]
+
+        if infotech.xml_format == XmlFormat.Iust:
+            self.item_attributes.append(Item.field_iust_type)
 
     def is_navigate(self):
         """

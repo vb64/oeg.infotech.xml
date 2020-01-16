@@ -83,23 +83,23 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
         obj.hor2 = xml_item.attrib[Item.field_hor2]
 
         if obj.xml_format == XmlFormat.Iust:
-            obj.iust_type = xml_item.attrib[Item.field_iust_type]
-            obj.iust_geo = xml_item.attrib[Item.field_iust_geo]
-            obj.iust_oval = xml_item.attrib[Item.field_iust_oval]
-            obj.iust_radius = xml_item.attrib[Item.field_iust_radius]
-            obj.iust_isolation = xml_item.attrib[Item.field_iust_isolation]
-            obj.iust_manufacturer = xml_item.attrib[Item.field_iust_manufacturer]
-            obj.iust_steel_class = xml_item.attrib[Item.field_iust_steel_class]
-            obj.iust_koef_press = xml_item.attrib[Item.field_iust_koef_press]
-            obj.iust_koef_pipe = xml_item.attrib[Item.field_iust_koef_pipe]
-            obj.iust_koef_mater = xml_item.attrib[Item.field_iust_koef_mater]
-            obj.iust_steel_mark = xml_item.attrib[Item.field_iust_steel_mark]
-            obj.iust_ballast = xml_item.attrib[Item.field_iust_ballast]
-            obj.iust_pipe_category = xml_item.attrib[Item.field_iust_pipe_category]
-            obj.iust_prod_method = xml_item.attrib[Item.field_iust_prod_method]
-            obj.iust_prod_standart = xml_item.attrib[Item.field_iust_prod_standart]
-            obj.iust_prod_country = xml_item.attrib[Item.field_iust_prod_country]
-            obj.iust_cover_type = xml_item.attrib[Item.field_iust_cover_type]
+            obj.iust_type = xml_item.attrib.get(Item.field_iust_type, '')
+            obj.iust_geo = xml_item.attrib.get(Item.field_iust_geo, '')
+            obj.iust_oval = xml_item.attrib.get(Item.field_iust_oval, '')
+            obj.iust_radius = xml_item.attrib.get(Item.field_iust_radius, '')
+            obj.iust_isolation = xml_item.attrib.get(Item.field_iust_isolation, '')
+            obj.iust_manufacturer = xml_item.attrib.get(Item.field_iust_manufacturer, '')
+            obj.iust_steel_class = xml_item.attrib.get(Item.field_iust_steel_class, '')
+            obj.iust_koef_press = xml_item.attrib.get(Item.field_iust_koef_press, '')
+            obj.iust_koef_pipe = xml_item.attrib.get(Item.field_iust_koef_pipe, '')
+            obj.iust_koef_mater = xml_item.attrib.get(Item.field_iust_koef_mater, '')
+            obj.iust_steel_mark = xml_item.attrib.get(Item.field_iust_steel_mark, '')
+            obj.iust_ballast = xml_item.attrib.get(Item.field_iust_ballast, '')
+            obj.iust_pipe_category = xml_item.attrib.get(Item.field_iust_pipe_category, '')
+            obj.iust_prod_method = xml_item.attrib.get(Item.field_iust_prod_method, '')
+            obj.iust_prod_standart = xml_item.attrib.get(Item.field_iust_prod_standart, '')
+            obj.iust_prod_country = xml_item.attrib.get(Item.field_iust_prod_country, '')
+            obj.iust_cover_type = xml_item.attrib.get(Item.field_iust_cover_type, '')
 
         return obj
 
@@ -171,17 +171,40 @@ class Section(InfotechSection):
     """
     <WELDS> xml section
     """
-    item_attributes = DistItem.dist_attribs + [
-      Item.field_number,
-      Item.field_length,
-      Item.field_thick,
-      Item.field_hor1,
-      Item.field_hor2,
-      DistItem.field_comment,
-    ] + DistItem.coords_attribs
+    tag = 'WELDS'
 
     def __init__(self, infotech):
-        super(Section, self).__init__(infotech, Item, 'WELDS')
+        super(Section, self).__init__(infotech, Item, Section.tag)
+
+        self.item_attributes = DistItem.dist_attribs + [
+          Item.field_number,
+          Item.field_length,
+          Item.field_thick,
+          Item.field_hor1,
+          Item.field_hor2,
+          DistItem.field_comment,
+        ] + DistItem.coords_attribs
+
+        if infotech.xml_format == XmlFormat.Iust:
+            self.item_attributes += [
+              Item.field_iust_type,
+              Item.field_iust_geo,
+              Item.field_iust_oval,
+              Item.field_iust_radius,
+              Item.field_iust_isolation,
+              Item.field_iust_manufacturer,
+              Item.field_iust_steel_class,
+              Item.field_iust_koef_press,
+              Item.field_iust_koef_pipe,
+              Item.field_iust_koef_mater,
+              Item.field_iust_steel_mark,
+              Item.field_iust_ballast,
+              Item.field_iust_pipe_category,
+              Item.field_iust_prod_method,
+              Item.field_iust_prod_standart,
+              Item.field_iust_prod_country,
+              Item.field_iust_cover_type,
+            ]
 
     def as_csv(self, with_navigation=False):
         """

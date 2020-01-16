@@ -89,15 +89,15 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
         obj.method_id = xml_item.attrib[Item.field_method_id]
 
         if obj.xml_format == XmlFormat.Iust:
-            obj.iust_type = xml_item.attrib[Item.field_iust_type]
-            obj.iust_from_weld = xml_item.attrib[Item.field_iust_from_weld]
-            obj.iust_to_weld = xml_item.attrib[Item.field_iust_to_weld]
-            obj.iust_from_seam = xml_item.attrib[Item.field_iust_from_seam]
-            obj.iust_depth = xml_item.attrib[Item.field_iust_depth]
-            obj.iust_at_wall = xml_item.attrib[Item.field_iust_at_wall]
-            obj.iust_at_tube = xml_item.attrib[Item.field_iust_at_tube]
-            obj.iust_danger = xml_item.attrib[Item.field_iust_danger]
-            obj.iust_need_review = xml_item.attrib[Item.field_iust_need_review]
+            obj.iust_type = xml_item.attrib.get(Item.field_iust_type, '')
+            obj.iust_from_weld = xml_item.attrib.get(Item.field_iust_from_weld, '')
+            obj.iust_to_weld = xml_item.attrib.get(Item.field_iust_to_weld, '')
+            obj.iust_from_seam = xml_item.attrib.get(Item.field_iust_from_seam, '')
+            obj.iust_depth = xml_item.attrib.get(Item.field_iust_depth, '')
+            obj.iust_at_wall = xml_item.attrib.get(Item.field_iust_at_wall, '')
+            obj.iust_at_tube = xml_item.attrib.get(Item.field_iust_at_tube, '')
+            obj.iust_danger = xml_item.attrib.get(Item.field_iust_danger, '')
+            obj.iust_need_review = xml_item.attrib.get(Item.field_iust_need_review, '')
 
         return obj
 
@@ -179,24 +179,39 @@ class Section(InfotechSection):
     """
     <DEFECTS> xml section
     """
-    item_attributes = DistItem.dist_attribs + [
-      Item.field_length,
-      Item.field_width,
-      Item.field_loss_min,
-      Item.field_loss_max,
-      Item.field_orient_start,
-      Item.field_orient_end,
-      Item.field_number,
-      DistItem.field_comment,
-      Item.field_kbd,
-      Item.field_safe_pressure,
-      Item.field_time_limit,
-      Item.field_safe_pressure_persent,
-      Item.field_method_id,
-    ] + DistItem.coords_attribs
+    tag = 'DEFECTS'
 
     def __init__(self, infotech):
-        super(Section, self).__init__(infotech, Item, 'DEFECTS')
+        super(Section, self).__init__(infotech, Item, Section.tag)
+
+        self.item_attributes = DistItem.dist_attribs + [
+          Item.field_length,
+          Item.field_width,
+          Item.field_loss_min,
+          Item.field_loss_max,
+          Item.field_orient_start,
+          Item.field_orient_end,
+          Item.field_number,
+          DistItem.field_comment,
+          Item.field_kbd,
+          Item.field_safe_pressure,
+          Item.field_time_limit,
+          Item.field_safe_pressure_persent,
+          Item.field_method_id,
+        ] + DistItem.coords_attribs
+
+        if infotech.xml_format == XmlFormat.Iust:
+            self.item_attributes += [
+              Item.field_iust_type,
+              Item.field_iust_from_weld,
+              Item.field_iust_to_weld,
+              Item.field_iust_from_seam,
+              Item.field_iust_depth,
+              Item.field_iust_at_wall,
+              Item.field_iust_at_tube,
+              Item.field_iust_danger,
+              Item.field_iust_need_review,
+            ]
 
     def as_csv(self, with_navigation=False):
         """
