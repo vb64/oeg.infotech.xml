@@ -3,7 +3,7 @@ DEFECTS section
 """
 from .ordered_attrib import ET
 from .base import Section as InfotechSection, DistItem, to_int
-from . import reverse_orient
+from . import reverse_orient, XmlFormat
 
 
 class Item(DistItem):  # pylint: disable=too-many-instance-attributes
@@ -29,9 +29,21 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
     field_safe_pressure_persent = 'PBEZ_PERCENT'
     field_method_id = 'METHOD'
 
-    def __init__(self):
+    # IUST fields
+    field_iust_type = 'IUST_TYPE'
+    field_iust_from_weld = 'IUST_FROM_WELD'
+    field_iust_to_weld = 'IUST_TO_WELD'
+    field_iust_from_seam = 'IUST_FROM_SEAM'
+    field_iust_depth = 'IUST_DEPTH'
+    field_iust_at_wall = 'IUST_AT_WALL'
+    field_iust_at_tube = 'IUST_AT_TUBE'
+    field_iust_danger = 'IUST_DANGER'
+    field_iust_need_review = 'IUST_NEED_REVIEW'
+
+    def __init__(self, xml_format=XmlFormat.Infotech):
         super(Item, self).__init__()
 
+        self.xml_format = xml_format
         self.length = ''
         self.width = ''
         self.loss_min = ''
@@ -45,12 +57,22 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
         self.safe_pressure_persent = ''
         self.method_id = ''
 
+        self.iust_type = ''
+        self.iust_from_weld = ''
+        self.iust_to_weld = ''
+        self.iust_from_seam = ''
+        self.iust_depth = ''
+        self.iust_at_wall = ''
+        self.iust_at_tube = ''
+        self.iust_danger = ''
+        self.iust_need_review = ''
+
     @classmethod
-    def from_xml(cls, xml_item):
+    def from_xml(cls, xml_item, xml_format=XmlFormat.Infotech):
         """
         create defect item from existing xml element
         """
-        obj = cls()
+        obj = cls(xml_format=xml_format)
         obj.fill_from_xml(xml_item)
 
         obj.length = to_int(xml_item.attrib[Item.field_length])  # mm
@@ -65,6 +87,17 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
         obj.time_limit = xml_item.attrib[Item.field_time_limit]
         obj.safe_pressure_persent = xml_item.attrib[Item.field_safe_pressure_persent]
         obj.method_id = xml_item.attrib[Item.field_method_id]
+
+        if obj.xml_format == XmlFormat.Iust:
+            obj.iust_type = xml_item.attrib[Item.field_iust_type]
+            obj.iust_from_weld = xml_item.attrib[Item.field_iust_from_weld]
+            obj.iust_to_weld = xml_item.attrib[Item.field_iust_to_weld]
+            obj.iust_from_seam = xml_item.attrib[Item.field_iust_from_seam]
+            obj.iust_depth = xml_item.attrib[Item.field_iust_depth]
+            obj.iust_at_wall = xml_item.attrib[Item.field_iust_at_wall]
+            obj.iust_at_tube = xml_item.attrib[Item.field_iust_at_tube]
+            obj.iust_danger = xml_item.attrib[Item.field_iust_danger]
+            obj.iust_need_review = xml_item.attrib[Item.field_iust_need_review]
 
         return obj
 
@@ -105,6 +138,10 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
         self.orient_start = reverse_orient(self.orient_start)
         self.orient_end = reverse_orient(self.orient_end)
 
+        tmp = self.iust_from_weld
+        self.iust_from_weld = self.iust_to_weld
+        self.iust_to_weld = tmp
+
     def add_xml_child(self, parent_node):
         """
         create and add xmml node of defect to parent xml node
@@ -123,6 +160,17 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
         node.set(Item.field_time_limit, self.time_limit)
         node.set(Item.field_safe_pressure_persent, self.safe_pressure_persent)
         node.set(Item.field_method_id, self.method_id)
+
+        if self.xml_format == XmlFormat.Iust:
+            node.set(Item.field_iust_type, self.iust_type)
+            node.set(Item.field_iust_from_weld, self.iust_from_weld)
+            node.set(Item.field_iust_to_weld, self.iust_to_weld)
+            node.set(Item.field_iust_from_seam, self.iust_from_seam)
+            node.set(Item.field_iust_depth, self.iust_depth)
+            node.set(Item.field_iust_at_wall, self.iust_at_wall)
+            node.set(Item.field_iust_at_tube, self.iust_at_tube)
+            node.set(Item.field_iust_danger, self.iust_danger)
+            node.set(Item.field_iust_need_review, self.iust_need_review)
 
         return node
 

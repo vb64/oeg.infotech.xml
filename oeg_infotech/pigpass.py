@@ -82,10 +82,11 @@ class Item(AbstractItem):
         node.set(Item.field_manufacturer, self.manufacturer)
         node.set(Item.field_manufac_date, self.manufac_date)
         node.set(Item.field_pigtype, self.pigtype)
-        node.set(Item.field_insptype, self.insptype)
 
         if self.xml_format == XmlFormat.Iust:
             node.set(Item.field_iust_type, self.iust_type)
+
+        node.set(Item.field_insptype, self.insptype)
 
         return node
 

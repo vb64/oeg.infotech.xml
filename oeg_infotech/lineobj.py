@@ -4,6 +4,7 @@ LINEOBJS section
 from .ordered_attrib import ET
 from .base import Section as InfotechSection, DistItem
 from .codes import Feature
+from . import XmlFormat
 
 
 REVERTED = {
@@ -41,18 +42,28 @@ class Item(DistItem):
     field_name_marker = 'NAME_MARKER'
     field_piketag_km = 'L_LCH'
 
-    def __init__(self):
+    # IUST fields
+    field_iust_type = 'IUST_TYPE'
+
+    def __init__(self, xml_format=XmlFormat.Infotech):
         super(Item, self).__init__()
+        self.xml_format = xml_format
+
         self.marker_name = ''
         self.piketag_km = ''
 
+        self.iust_type = ''
+
     @classmethod
-    def from_xml(cls, xml_item):
+    def from_xml(cls, xml_item, xml_format=XmlFormat.Infotech):
         """
         create lineobj item from existing xml element
         """
-        obj = cls()
+        obj = cls(xml_format=xml_format)
         obj.fill_from_xml(xml_item)
+
+        if obj.xml_format == XmlFormat.Iust:
+            obj.iust_type = xml_item.attrib[Item.field_iust_type]
 
         obj.marker_name = xml_item.attrib[Item.field_name_marker]
         obj.piketag_km = xml_item.attrib[Item.field_piketag_km]
@@ -74,6 +85,10 @@ class Item(DistItem):
         """
         node = ET.SubElement(parent_node, Item.xml_node_name)
         super(Item, self).base_xml(node)
+
+        if self.xml_format == XmlFormat.Iust:
+            node.set(Item.field_iust_type, self.iust_type)
+
         node.set(Item.field_name_marker, self.marker_name)
         node.set(Item.field_piketag_km, self.piketag_km)
 
