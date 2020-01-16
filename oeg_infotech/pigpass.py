@@ -129,9 +129,9 @@ class Section(InfotechSection):
 
     def reverse(self, total_length):
         """
-        reverse object list and modify self.infotech.xml
+        modify self.infotech.xml
         """
-        self._items = reversed(self.items)
+        self._items = self.items
         section = self.infotech.xml.getroot().find(self.section)
         section.clear()
 
