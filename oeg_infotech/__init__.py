@@ -152,6 +152,7 @@ class Infotech(object):
         self.lineobjects.reverse(total_length)
         self.welds.reverse(total_length)
         self.defects.reverse(total_length)
+        self.pigpass.reverse(total_length)
 
         return "{}".format(self)
 

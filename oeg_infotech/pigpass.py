@@ -4,7 +4,7 @@ PIGPASS section
 from .ordered_attrib import ET
 from .codes import PassType
 from .base import Section as InfotechSection, AbstractItem
-from . import XmlFormat
+from . import XmlFormat, indent
 
 
 class Item(AbstractItem):
@@ -64,7 +64,7 @@ class Item(AbstractItem):
         obj.insptype = xml_item.attrib[Item.field_insptype]
 
         if obj.xml_format == XmlFormat.Iust:
-            obj.iust_type = xml_item.attrib[Item.field_iust_type]
+            obj.iust_type = xml_item.attrib.get(Item.field_iust_type, '')
 
         return obj
 
@@ -126,3 +126,16 @@ class Section(InfotechSection):
                 return True
 
         return False
+
+    def reverse(self, total_length):
+        """
+        reverse object list and modify self.infotech.xml
+        """
+        self._items = reversed(self.items)
+        section = self.infotech.xml.getroot().find(self.section)
+        section.clear()
+
+        for item in self.items:
+            item.add_xml_child(section)
+
+        indent(section, level=1)
