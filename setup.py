@@ -9,7 +9,7 @@ Library for OrgEnergoGaz Infotech xml processing
 
 setuptools.setup(
     name = 'oeg_infotech',
-    version = '1.3',
+    version = '1.4',
     author = 'Vitaly Bogomolov',
     author_email = 'mail@vitaly-bogomolov.ru',
     description = 'Library for OrgEnergoGaz Infotech xml processing',
@@ -17,8 +17,8 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url = 'https://github.com/vb64/oeg.infotech.xml',
     packages = ['oeg_infotech', 'oeg_infotech.codes'],
-    download_url = 'https://github.com/vb64/oeg.infotech.xml/archive/v1.3.tar.gz',
-    keywords = ['python', 'OrgEnergoGaz', 'Infotech', 'xml'],
+    download_url = 'https://github.com/vb64/oeg.infotech.xml/archive/v1.4.tar.gz',
+    keywords = ['python', 'OrgEnergoGaz', 'Infotech', 'IUST', 'xml'],
     classifiers=[
         "Programming Language :: Python :: 2.7",
         "License :: OSI Approved :: MIT License",

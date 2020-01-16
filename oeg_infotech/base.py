@@ -135,7 +135,7 @@ class Section(object):
         if self._items is None:
             self._items = []
             for obj in self.infotech.xml.getroot().find(self.section):
-                item = self.cls.from_xml(obj)
+                item = self.cls.from_xml(obj, xml_format=self.infotech.xml_format)
                 if item.is_valid():
                     self._items.append(item)
 

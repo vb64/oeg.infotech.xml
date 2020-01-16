@@ -6,6 +6,14 @@ from StringIO import StringIO, StringIO as BytesIO  # pylint: disable=reimported
 from .ordered_attrib import ET
 
 
+class XmlFormat(object):  # pylint: disable=too-few-public-methods
+    """
+    xml type
+    """
+    Infotech = 0
+    Iust = 1
+
+
 def reverse_orient(orient):
     """
     reverse orientation
@@ -71,10 +79,11 @@ class Infotech(object):
 </IPL_INSPECT>
 """
 
-    def __init__(self, codepage="windows-1251"):
+    def __init__(self, codepage="windows-1251", xml_format=XmlFormat.Infotech):
         self.xml = ET.parse(StringIO(self.template))
         self.obj_dict = {}
         self.codepage = codepage
+        self.xml_format = xml_format
         self.is_navigate = None
 
         from . import defect, weld, lineobj, pigpass
@@ -93,11 +102,11 @@ class Infotech(object):
         return self.__unicode__()
 
     @classmethod
-    def from_file(cls, file_name):
+    def from_file(cls, file_name, xml_format=XmlFormat.Infotech):
         """
         load data from xml file
         """
-        obj = cls()
+        obj = cls(xml_format=xml_format)
         obj.xml = ET.parse(file_name)
         sect = obj.xml.getroot().find(obj.typobj_section)
         obj.obj_dict = {typ.attrib[obj.typobj_id]: typ.find(obj.typobj_title).text for typ in sect}
@@ -143,6 +152,7 @@ class Infotech(object):
         self.lineobjects.reverse(total_length)
         self.welds.reverse(total_length)
         self.defects.reverse(total_length)
+        self.pigpass.reverse(total_length)
 
         return "{}".format(self)
 

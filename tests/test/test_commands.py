@@ -62,7 +62,7 @@ class TestCommands(TestInfotech):
         info = Infotech.from_file(self.fixture('1736.xml'))
         self.assertEqual(info.total_dist(), 17727)
         root = info.xml.getroot()
-        l_section = root.find(lineobj.Section.section_tag)
+        l_section = root.find(lineobj.Section.tag)
         self.assertEqual(int(l_section[0].get(DistItem.field_odometer)), 0)
         self.assertEqual(int(l_section[-1].get(DistItem.field_odometer)), 17710)
 

@@ -1,10 +1,10 @@
-# coding: windows-1251
 """
 PIGPASS section
 """
 from .ordered_attrib import ET
 from .codes import PassType
 from .base import Section as InfotechSection, AbstractItem
+from . import XmlFormat, indent
 
 
 class Item(AbstractItem):
@@ -28,7 +28,11 @@ class Item(AbstractItem):
     field_pigtype = 'PIGTYPE'
     field_insptype = 'OBSLTYPE'
 
-    def __init__(self):
+    # IUST fields
+    field_iust_type = 'IUST_TYPE'
+
+    def __init__(self, xml_format=XmlFormat.Infotech):
+        self.xml_format = xml_format
         self.pig = None
         self.objtype = None
         self.date1 = None
@@ -40,12 +44,14 @@ class Item(AbstractItem):
         self.pigtype = None
         self.insptype = None
 
+        self.iust_type = ''
+
     @classmethod
-    def from_xml(cls, xml_item):
+    def from_xml(cls, xml_item, xml_format=XmlFormat.Infotech):
         """
         create item from xml item
         """
-        obj = cls()
+        obj = cls(xml_format=xml_format)
 
         obj.objtype = xml_item.attrib[Item.field_typeobj]
         obj.date1 = xml_item.attrib[Item.field_date1]
@@ -57,6 +63,9 @@ class Item(AbstractItem):
         obj.pigtype = xml_item.attrib[Item.field_pigtype]
         obj.insptype = xml_item.attrib[Item.field_insptype]
 
+        if obj.xml_format == XmlFormat.Iust:
+            obj.iust_type = xml_item.attrib.get(Item.field_iust_type, '')
+
         return obj
 
     def add_xml_child(self, parent_node):
@@ -64,6 +73,9 @@ class Item(AbstractItem):
         create and add pigpass xml node of object to parent xml node
         """
         node = ET.SubElement(parent_node, Item.xml_node_name)
+
+        if self.xml_format == XmlFormat.Iust:
+            node.set(Item.field_iust_type, self.iust_type)
 
         node.set(Item.field_typeobj, self.objtype)
         node.set(Item.field_date1, self.date1)
@@ -82,21 +94,25 @@ class Section(InfotechSection):
     """
     <PIGPASS> xml section
     """
-    section_tag = 'PIGPASS'
-    item_attributes = [
-      Item.field_typeobj,
-      Item.field_date1,
-      Item.field_date2,
-      Item.field_speed,
-      Item.field_rem,
-      Item.field_manufacturer,
-      Item.field_manufac_date,
-      Item.field_pigtype,
-      Item.field_insptype,
-    ]
+    tag = 'PIGPASS'
 
     def __init__(self, infotech):
-        super(Section, self).__init__(infotech, Item, Section.section_tag)
+        super(Section, self).__init__(infotech, Item, Section.tag)
+
+        self.item_attributes = [
+          Item.field_typeobj,
+          Item.field_date1,
+          Item.field_date2,
+          Item.field_speed,
+          Item.field_rem,
+          Item.field_manufacturer,
+          Item.field_manufac_date,
+          Item.field_pigtype,
+          Item.field_insptype,
+        ]
+
+        if infotech.xml_format == XmlFormat.Iust:
+            self.item_attributes.append(Item.field_iust_type)
 
     def is_navigate(self):
         """
@@ -110,3 +126,16 @@ class Section(InfotechSection):
                 return True
 
         return False
+
+    def reverse(self, total_length):
+        """
+        modify self.infotech.xml
+        """
+        self._items = self.items
+        section = self.infotech.xml.getroot().find(self.section)
+        section.clear()
+
+        for item in self.items:
+            item.add_xml_child(section)
+
+        indent(section, level=1)
