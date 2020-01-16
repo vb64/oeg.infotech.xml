@@ -33,7 +33,8 @@ xml_string = info1.reverse()
 'IPL_INSPECT' in xml_string
 True
 
-# обьединить перевернутые данные из infotech1.xml и данные из infotech2.xml, вставив между ними трубу длиной 11 метров
+# обьединить перевернутые данные из infotech1.xml и данные из infotech2.xml,
+# вставив между ними трубу длиной 11 метров
 xml_string = info1.join(['1100', 'infotech2.xml'])
 'IPL_INSPECT' in xml_string
 True
