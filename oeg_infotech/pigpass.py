@@ -44,7 +44,7 @@ class Item(AbstractItem):
         self.pigtype = None
         self.insptype = None
 
-        self.iust_type = None
+        self.iust_type = ''
 
     @classmethod
     def from_xml(cls, xml_item, xml_format=XmlFormat.Infotech):
