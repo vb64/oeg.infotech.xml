@@ -28,7 +28,7 @@ info1 = Infotech.from_file('infotech1.xml')
 'IPL_INSPECT' in str(info1)
 True
 
-# перевернуть данные, пересчитав дистанции и ориентаци. обьектов
+# перевернуть данные, пересчитав дистанции и угловые ориентации обьектов
 xml_string = info1.reverse()
 'IPL_INSPECT' in xml_string
 True
