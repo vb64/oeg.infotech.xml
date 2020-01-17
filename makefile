@@ -1,4 +1,4 @@
-.PHONY: all setup tests
+.PHONY: all setup tests dist
 # make tests >debug.log 2>&1
 
 ifeq ($(OS),Windows_NT)
