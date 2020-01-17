@@ -31,6 +31,7 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
 
     # IUST fields
     field_iust_type = 'IUST_TYPE'
+    field_iust_tube = 'IUST_TUBE'
     field_iust_from_weld = 'IUST_FROM_WELD'
     field_iust_to_weld = 'IUST_TO_WELD'
     field_iust_from_seam = 'IUST_FROM_SEAM'
@@ -58,6 +59,7 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
         self.method_id = ''
 
         self.iust_type = ''
+        self.iust_tube = ''
         self.iust_from_weld = ''
         self.iust_to_weld = ''
         self.iust_from_seam = ''
@@ -90,6 +92,7 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
 
         if obj.xml_format == XmlFormat.Iust:
             obj.iust_type = xml_item.attrib.get(Item.field_iust_type, '')
+            obj.iust_tube = xml_item.attrib.get(Item.field_iust_tube, '')
             obj.iust_from_weld = xml_item.attrib.get(Item.field_iust_from_weld, '')
             obj.iust_to_weld = xml_item.attrib.get(Item.field_iust_to_weld, '')
             obj.iust_from_seam = xml_item.attrib.get(Item.field_iust_from_seam, '')
@@ -163,6 +166,7 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
 
         if self.xml_format == XmlFormat.Iust:
             node.set(Item.field_iust_type, self.iust_type)
+            node.set(Item.field_iust_tube, self.iust_tube)
             node.set(Item.field_iust_from_weld, self.iust_from_weld)
             node.set(Item.field_iust_to_weld, self.iust_to_weld)
             node.set(Item.field_iust_from_seam, self.iust_from_seam)
@@ -203,6 +207,7 @@ class Section(InfotechSection):
         if infotech.xml_format == XmlFormat.Iust:
             self.item_attributes += [
               Item.field_iust_type,
+              Item.field_iust_tube,
               Item.field_iust_from_weld,
               Item.field_iust_to_weld,
               Item.field_iust_from_seam,
