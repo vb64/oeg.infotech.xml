@@ -1,7 +1,10 @@
+"""
+For pypi.org upload
+"""
 import setuptools
 
 
-long_description = """
+LONG = """
 # oeg.infotech.xml
 
 Library for OrgEnergoGaz Infotech xml processing
@@ -13,7 +16,7 @@ setuptools.setup(
   author='Vitaly Bogomolov',
   author_email='mail@vitaly-bogomolov.ru',
   description='Library for OrgEnergoGaz Infotech xml processing',
-  long_description=long_description,
+  long_description=LONG,
   long_description_content_type="text/markdown",
   url='https://github.com/vb64/oeg.infotech.xml',
   packages=['oeg_infotech', 'oeg_infotech.codes'],
