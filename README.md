@@ -8,7 +8,7 @@
 
 ## Установка
 
-```
+```bash
 $ pip install oeg-infotech
 ```
 
@@ -43,7 +43,7 @@ True
 
 ## Разработка
 
-```
+```bash
 $ git clone git@github.com:vb64/oeg.infotech.xml.git
 $ cd oeg.infotech.xml
 $ make setup PYTHON_BIN=/path/to/python27/executable
