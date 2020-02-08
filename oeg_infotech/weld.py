@@ -71,7 +71,7 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
     @classmethod
     def from_xml(cls, xml_item, xml_format=XmlFormat.Infotech):
         """
-        create weld item from existing xml element
+        Create weld item from existing xml element
         """
         obj = cls(xml_format=xml_format)
         obj.fill_from_xml(xml_item)
@@ -105,13 +105,13 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
 
     def end(self):
         """
-        return distance for end of tube
+        Return distance for end of tube
         """
         return self.dist + self.length
 
     def as_csv_row(self, infotech, with_navigation=False):
         """
-        return list of field values for csv string
+        Return list of field values for csv string
         """
         columns = [
           self.number,
@@ -126,7 +126,7 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
 
     def reverse(self, total_length, object_index):
         """
-        reverse weld
+        Reverse weld
         """
         self.dist = total_length - (self.dist + self.length)
         self.number = "{}".format(object_index)
@@ -135,7 +135,7 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
 
     def add_xml_child(self, parent_node):
         """
-        create and add xmml node of weld to parent xml node
+        Create and add xmml node of weld to parent xml node
         """
         node = ET.SubElement(parent_node, Item.xml_node_name)
         super(Item, self).base_xml(node)
@@ -208,7 +208,7 @@ class Section(InfotechSection):
 
     def as_csv(self, with_navigation=False):
         """
-        dump weld section content as csv string
+        Dump weld section content as csv string
         """
         column_titles = [
           'Name', 'Distance', 'Tube number', 'Tube length', 'Thick', 'Weld1', 'Weld2', 'Comment'
@@ -217,7 +217,7 @@ class Section(InfotechSection):
 
     def add_tube(self, objtype, tube_dist, tube_length):
         """
-        add new tube with given type, dist and length to thr end of record
+        Add new tube with given type, dist and length to thr end of record
         """
         item = Item()
 

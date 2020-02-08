@@ -123,7 +123,7 @@ class Section(InfotechSection):
 
     def as_csv(self, with_navigation=False):
         """
-        dump lineobj section content as csv string
+        Dump lineobj section content as csv string
         """
         column_titles = [
           'Name', 'Distance', 'Marker', 'Piketag', 'Comment'
