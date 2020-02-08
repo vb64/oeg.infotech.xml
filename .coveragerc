@@ -1,6 +1,7 @@
 [run]
 branch = True
 source = oeg_infotech/
+omit = oeg_infotech/ordered_attrib.py
 
 [html]
 directory = htmlcov
