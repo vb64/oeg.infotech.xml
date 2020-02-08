@@ -3,4 +3,4 @@ pytest-cov
 flake8
 pylint
 twine
-coveralls
+codacy-coverage
