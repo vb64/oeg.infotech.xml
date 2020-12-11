@@ -1,5 +1,5 @@
 """
-make test T=test_inspection
+make test T=test_inspection.py
 """
 from . import TestInfotech
 
@@ -16,19 +16,22 @@ class TestInspection(TestInfotech):
         from oeg_infotech.codes import PigType
 
         info = Infotech.from_file(self.fixture('1736.xml'))
-        self.assertEqual(len(info.pigpass.items), 2)
+        assert len(info.pigpass.items) == 2
 
         types = [pigpass.pigtype for pigpass in info.pigpass.items]
-        self.assertIn(PigType.MFL, types)
-        self.assertIn(PigType.TFI, types)
-        self.assertNotIn(PigType.CALIPER_MECH, types)
-        self.assertEqual(len(info.welds.items), 23)
+        assert PigType.MFL in types
+        assert PigType.TFI in types
+        assert PigType.CALIPER_MECH not in types
+        assert len(info.welds.items) == 23
+
+        assert not info.pigpass.is_navigate()
 
     def test_navigate(self):
         """
         inspection with navigate data
         """
         from oeg_infotech import Infotech
+        from oeg_infotech.codes import PassType
 
         info = Infotech.from_file(self.fixture('1827.xml'))
         self.compare_xml(
@@ -36,3 +39,7 @@ class TestInspection(TestInfotech):
           Infotech.from_file(self.fixture('1827.xml')).xml,
           is_navigate=info.is_navigate
         )
+
+        assert not info.pigpass.is_navigate()
+        info.pigpass.items[0].insptype = PassType.NAVIGATE
+        assert info.pigpass.is_navigate()
