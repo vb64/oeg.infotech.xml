@@ -1,36 +1,31 @@
-"""
-Base classes for Infotech sections and items
-"""
+"""Base classes for Infotech sections and items."""
 import csv
-from StringIO import StringIO
+
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO  # Python 3
+
 from . import indent
 
 
 def to_int(text):
-    """
-    text to int
-    """
+    """Text to integer."""
     try:
         return int(text)
     except ValueError:
         return ''
 
 
-class AbstractItem(object):  # pylint: disable=too-few-public-methods
-    """
-    abstract class for xml item
-    """
+class AbstractItem:  # pylint: disable=too-few-public-methods,no-init
+    """Abstract class for xml item."""
     def is_valid(self):
-        """
-        check for valid field values
-        """
+        """Check for valid field values."""
         return bool(self)
 
 
 class DistItem(AbstractItem):
-    """
-    abstract class for item on dist
-    """
+    """Abstract class for item on dist."""
     field_typeobj = 'IDTYPEOBJ'
     field_odometer = 'ODOMETER'
     field_comment = 'REM'
@@ -63,9 +58,7 @@ class DistItem(AbstractItem):
         self.coord_system = None
 
     def fill_from_xml(self, xml_item):
-        """
-        fill item data from existing xml element
-        """
+        """Fill item data from existing xml element."""
         self.objtype = xml_item.attrib[DistItem.field_typeobj]
         self.dist = to_int(xml_item.attrib[DistItem.field_odometer])
         self.comment = xml_item.attrib[DistItem.field_comment]
@@ -76,9 +69,7 @@ class DistItem(AbstractItem):
         self.coord_system = xml_item.attrib.get(DistItem.field_coord_system, None)
 
     def as_csv_row(self, infotech, with_navigation=False):
-        """
-        return list of item fields for csv output
-        """
+        """Return list of item fields for csv output."""
         suffix = []
         if with_navigation:
             suffix = [
@@ -95,15 +86,11 @@ class DistItem(AbstractItem):
         ] + suffix
 
     def reverse(self, total_length, _object_index):
-        """
-        reverse object distance
-        """
+        """Reverse object distance."""
         self.dist = total_length - self.dist
 
     def base_xml(self, node):
-        """
-        set base attributes to xml node of object
-        """
+        """Set base attributes to xml node of object."""
         node.set(DistItem.field_typeobj, self.objtype)
         node.set(DistItem.field_odometer, "{}".format(self.dist))
         node.set(DistItem.field_comment, self.comment)
@@ -115,10 +102,8 @@ class DistItem(AbstractItem):
             node.set(DistItem.field_coord_system, self.coord_system)
 
 
-class Section(object):
-    """
-    abstract class for xml section
-    """
+class Section:
+    """Abstract class for xml section."""
     item_attributes = None
 
     def __init__(self, infotech, cls, section):
@@ -129,9 +114,7 @@ class Section(object):
 
     @property
     def items(self):
-        """
-        lazy restore list of section's items
-        """
+        """Lazy restore list of section's items."""
         if self._items is None:
             self._items = []
             for obj in self.infotech.xml.getroot().find(self.section):
@@ -142,9 +125,7 @@ class Section(object):
         return self._items
 
     def as_csv_body(self, title, column_titles, with_navigation=False):
-        """
-        dump section as csv string
-        """
+        """Dump section as csv string."""
         output = StringIO()
         writer = csv.writer(output, delimiter=';', lineterminator='\n')
 
@@ -162,9 +143,7 @@ class Section(object):
         return content
 
     def rebuild_xml(self):
-        """
-        generate new xml data based on current section data
-        """
+        """Generate new xml data based on current section data."""
         section = self.infotech.xml.getroot().find(self.section)
         section.clear()
 
@@ -174,9 +153,7 @@ class Section(object):
                 node.ordered_attributes = self.item_attributes
 
     def reverse(self, total_length):
-        """
-        reverse vector of objects and modify self.infotech.xml
-        """
+        """Reverse vector of objects and modify self.infotech.xml."""
         self._items = reversed(self.items)
         section = self.infotech.xml.getroot().find(self.section)
         section.clear()
@@ -190,9 +167,7 @@ class Section(object):
         indent(section, level=1)
 
     def add_from_xml(self, xml_section, at_dist, dist_shift):
-        """
-        add objects from another infotech section from given dist
-        """
+        """Add objects from another infotech section from given dist."""
         items = self.items
         for item in xml_section.items:
             item.dist = item.dist - dist_shift + at_dist

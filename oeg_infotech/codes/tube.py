@@ -1,12 +1,8 @@
-"""
-Pipeline tube types
-"""
+"""Pipeline tube types."""
 
 
-class Tube:  # pylint: disable=old-style-class,no-init,too-few-public-methods
-    """
-    Tube types
-    """
+class Tube:  # pylint: disable=no-init,too-few-public-methods
+    """Tube types."""
     BEZSHOV = '2097789'
     DVUSHOV = '2097792'
     UNKNOWN = '2097790'

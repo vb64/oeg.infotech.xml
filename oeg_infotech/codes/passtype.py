@@ -1,12 +1,8 @@
-"""
-Inspection pass types
-"""
+"""Inspection pass types."""
 
 
-class PassType:  # pylint: disable=old-style-class,no-init,too-few-public-methods
-    """
-    codes for PIGPASS
-    """
+class PassType:  # pylint: disable=no-init,too-few-public-methods
+    """Codes for PIGPASS."""
     COMPLEX = '2088658'
     COMPLEX_SKS = '2088661'
     COMPLEX_NAV = '5345726'

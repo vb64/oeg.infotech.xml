@@ -1,23 +1,22 @@
 # coding: utf-8
-"""
-Infotech staff
-"""
-from StringIO import StringIO, StringIO as BytesIO  # pylint: disable=reimported
+"""Infotech staff."""
+try:
+    from StringIO import StringIO, StringIO as BytesIO  # pylint: disable=reimported
+except ImportError:
+    from io import StringIO  # Python 3
+    from io import BytesIO
+
 from .ordered_attrib import ET
 
 
-class XmlFormat(object):  # pylint: disable=too-few-public-methods
-    """
-    xml type
-    """
+class XmlFormat:  # pylint: disable=too-few-public-methods,no-init
+    """Xml format type."""
     Infotech = 0
     Iust = 1
 
 
 def reverse_orient(orient):
-    """
-    reverse orientation
-    """
+    """Reverse orientation."""
     if not orient:
         return orient
 
@@ -29,18 +28,15 @@ def reverse_orient(orient):
 
 
 def numerate(items, from_index):
-    """
-    enumerate items from given from_index
-    """
+    """Enumerate items from given from_index."""
     for item in items:
         item.number = "{}".format(from_index)
         from_index += 1
 
 
 def indent(elem, level=0, ident_item="    "):
-    """
+    """In-place prettyprint formatter.
     http://effbot.org/zone/element-lib.htm#prettyprint
-    in-place prettyprint formatter
     """
     i = "\n" + level*ident_item
     if len(elem):  # pylint: disable=len-as-condition
@@ -57,10 +53,8 @@ def indent(elem, level=0, ident_item="    "):
             elem.tail = i
 
 
-class Infotech(object):
-    """
-    Infotech xml export
-    """
+class Infotech:
+    """Infotech xml export."""
     typobj_section = 'TYPEOBJS'
     typobj_item = 'TYPEOBJ'
     typobj_id = 'IDTYPEOBJ'
@@ -86,7 +80,8 @@ class Infotech(object):
         self.xml_format = xml_format
         self.is_navigate = None
 
-        from . import defect, weld, lineobj, pigpass
+        from . import defect, weld, lineobj, pigpass  # pylint: disable=cyclic-import
+
         self.welds = weld.Section(self)
         self.defects = defect.Section(self)
         self.lineobjects = lineobj.Section(self)
@@ -103,9 +98,7 @@ class Infotech(object):
 
     @classmethod
     def from_file(cls, file_name, xml_format=XmlFormat.Infotech):
-        """
-        load data from xml file
-        """
+        """Load data from xml file."""
         obj = cls(xml_format=xml_format)
         obj.xml = ET.parse(file_name)
         sect = obj.xml.getroot().find(obj.typobj_section)
@@ -114,9 +107,7 @@ class Infotech(object):
         return obj
 
     def rebuild_typeobjs(self):
-        """
-        generate new content for TYPEOBJS section of xml, based on obj_dict data
-        """
+        """Generate new content for TYPEOBJS section of xml, based on obj_dict data."""
         section = self.xml.getroot().find(self.typobj_section)
         section.clear()
 
@@ -133,21 +124,15 @@ class Infotech(object):
             title.text = val
 
     def total_dist(self):
-        """
-        return length of inspection
-        """
+        """Return length of inspection."""
         return self.welds.items[-1].end()
 
     def start_dist(self):
-        """
-        return start distance of inspection
-        """
+        """Return start distance of inspection."""
         return self.welds.items[0].dist
 
     def reverse(self):
-        """
-        reverse vector of objects and return string dump of updated xml
-        """
+        """Reverse vector of objects and return string dump of updated xml."""
         total_length = self.total_dist()
         self.lineobjects.reverse(total_length)
         self.welds.reverse(total_length)
@@ -157,9 +142,7 @@ class Infotech(object):
         return "{}".format(self)
 
     def fix(self):
-        """
-        repair umdp-1400 data in PIGPASS section
-        """
+        """Repair umdp-1400 data in PIGPASS section."""
         umdp = u'УМДП-1400'  # encode(self.codepage)
         umdp_key = None
 
@@ -180,9 +163,7 @@ class Infotech(object):
         return "{}".format(self)
 
     def join(self, file_list):
-        """
-        join several xml files and connect tubes
-        """
+        """Join several xml files and connect tubes."""
         from .codes import Tube, NAME
         is_updated = False
 

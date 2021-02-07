@@ -1,6 +1,4 @@
-"""
-LINEOBJS section
-"""
+"""LINEOBJS section."""
 from .ordered_attrib import ET
 from .base import Section as InfotechSection, DistItem
 from .codes import Feature
@@ -32,8 +30,7 @@ REVERTED = {
 
 
 class Item(DistItem):
-    """
-    object item from <LINEOBJS> xml section
+    """Object item from <LINEOBJS> xml section.
     <PLOBJ
       IDTYPEOBJ="990006537229" ODOMETER="0" NAME_MARKER="M1" L_LCH="" REM=""
     />
@@ -46,7 +43,7 @@ class Item(DistItem):
     field_iust_type = 'IUST_TYPE'
 
     def __init__(self, xml_format=XmlFormat.Infotech):
-        super(Item, self).__init__()
+        DistItem.__init__(self)
         self.xml_format = xml_format
 
         self.marker_name = ''
@@ -56,9 +53,7 @@ class Item(DistItem):
 
     @classmethod
     def from_xml(cls, xml_item, xml_format=XmlFormat.Infotech):
-        """
-        create lineobj item from existing xml element
-        """
+        """Create lineobj item from existing xml element."""
         obj = cls(xml_format=xml_format)
         obj.fill_from_xml(xml_item)
 
@@ -71,20 +66,16 @@ class Item(DistItem):
         return obj
 
     def as_csv_row(self, infotech, with_navigation=False):
-        """
-        return list of lineobj field values for csv string
-        """
+        """Return list of lineobj field values for csv string."""
         columns = [self.marker_name, self.piketag_km]
-        base_columns = super(Item, self).as_csv_row(infotech, with_navigation=with_navigation)
+        base_columns = DistItem.as_csv_row(self, infotech, with_navigation=with_navigation)
 
         return base_columns[:2] + columns + base_columns[2:]
 
     def add_xml_child(self, parent_node):
-        """
-        create and add lineobj xml node of object to parent xml node
-        """
+        """Create and add lineobj xml node of object to parent xml node."""
         node = ET.SubElement(parent_node, Item.xml_node_name)
-        super(Item, self).base_xml(node)
+        DistItem.base_xml(self, node)
 
         if self.xml_format == XmlFormat.Iust:
             node.set(Item.field_iust_type, self.iust_type)
@@ -95,22 +86,18 @@ class Item(DistItem):
         return node
 
     def reverse(self, total_length, object_index):
-        """
-        reverse line object
-        """
-        super(Item, self).reverse(total_length, object_index)
+        """Reverse line object."""
+        DistItem.reverse(self, total_length, object_index)
         if self.objtype in REVERTED:
             self.objtype = REVERTED[self.objtype]
 
 
 class Section(InfotechSection):
-    """
-    <LINEOBJS> xml section
-    """
+    """<LINEOBJS> xml section."""
     tag = 'LINEOBJS'
 
     def __init__(self, infotech):
-        super(Section, self).__init__(infotech, Item, Section.tag)
+        InfotechSection.__init__(self, infotech, Item, Section.tag)
 
         self.item_attributes = DistItem.dist_attribs + [
           Item.field_name_marker,
@@ -122,10 +109,8 @@ class Section(InfotechSection):
             self.item_attributes.append(Item.field_iust_type)
 
     def as_csv(self, with_navigation=False):
-        """
-        Dump lineobj section content as csv string
-        """
+        """Dump lineobj section content as csv string."""
         column_titles = [
           'Name', 'Distance', 'Marker', 'Piketag', 'Comment'
         ]
-        return super(Section, self).as_csv_body('Line objects table', column_titles, with_navigation=with_navigation)
+        return InfotechSection.as_csv_body(self, 'Line objects table', column_titles, with_navigation=with_navigation)

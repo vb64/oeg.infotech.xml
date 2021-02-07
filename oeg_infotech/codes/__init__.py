@@ -1,7 +1,5 @@
 # coding: utf-8
-"""
-Infotech official dictionaries
-"""
+"""Infotech official dictionaries."""
 from .pigtype import PigType
 from .passtype import PassType
 from .tube import Tube
