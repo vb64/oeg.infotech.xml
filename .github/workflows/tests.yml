@@ -32,7 +32,6 @@ jobs:
     - name: pep257
       run: |
         python -m pep257 ./oeg_infotech
-        python -m pep257 ./tests
 
     - name: pylint
       run: |
@@ -73,7 +72,6 @@ jobs:
     - name: pep257
       run: |
         python -m pep257 ./oeg_infotech
-        python -m pep257 ./tests
 
     - name: pylint
       run: |
