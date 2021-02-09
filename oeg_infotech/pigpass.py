@@ -6,12 +6,14 @@ from . import XmlFormat, indent
 
 class Item(AbstractItem):
     """Object item from <PIGPASS> xml section.
+
     <PASS
       IDTYPEOBJ="0" DATE1="25.05.2018 10:58:00" DATE2="25.05.2018 11:10:00"
       SPEED_AVERAGE="0.26" REM="" MANUFACTURER="xxxx" MANUFACT_DATE="2010"
       PIGTYPE="990005096296" OBSLTYPE="2"
     />
     """
+
     xml_node_name = 'PASS'
 
     field_typeobj = 'IDTYPEOBJ'
@@ -28,6 +30,7 @@ class Item(AbstractItem):
     field_iust_type = 'IUST_TYPE'
 
     def __init__(self, xml_format=XmlFormat.Infotech):
+        """Pigpass section item with given format."""
         self.xml_format = xml_format
         self.pig = None
         self.objtype = None
@@ -84,9 +87,11 @@ class Item(AbstractItem):
 
 class Section(InfotechSection):
     """<PIGPASS> xml section."""
+
     tag = 'PIGPASS'
 
     def __init__(self, infotech):
+        """Pigpass section of infotech object."""
         InfotechSection.__init__(self, infotech, Item, Section.tag)
 
         self.item_attributes = [

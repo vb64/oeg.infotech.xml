@@ -3,6 +3,7 @@
 
 class PigType:  # pylint: disable=no-init,too-few-public-methods
     """Codes for pig tools."""
+
     MFL = '990005096296'
     TFI = '990004033563'
     CALIPER_MECH = '990004033561'

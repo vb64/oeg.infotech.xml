@@ -3,6 +3,7 @@
 
 class MethodsKBD:  # pylint: disable=no-init,too-few-public-methods
     """Codes for methods of KBD calculation."""
+
     API579 = '4982902'
     ASME = '990005096289'
     BS7910 = '990005096288'

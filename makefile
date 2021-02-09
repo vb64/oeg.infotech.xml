@@ -22,11 +22,11 @@ all: tests
 test:
 	$(PTEST) -s $(TESTS)/test/$(T)
 
-tests: flake8 lint
+tests: pep257 flake8 lint
 	$(PYTEST) --durations=5 $(TESTS)
 	$(COVERAGE) html --skip-covered
 
-tests3: flake8 lint3
+tests3: pep257 flake8 lint3
 	$(PYTEST) --durations=5 $(TESTS)
 	$(COVERAGE) html --skip-covered
 
@@ -41,6 +41,9 @@ lint:
 lint3:
 	$(LINT3) $(TESTS)/test
 	$(LINT3) $(SOURCE)
+
+pep257:
+	$(PYTHON) -m pep257 $(SOURCE)
 
 dist:
 	$(PYTHON) setup.py sdist bdist_wheel

@@ -3,8 +3,19 @@ import csv
 
 try:
     from StringIO import StringIO
+
+    def add_xml_child(item, section, attributes):
+        """Set ordered attributes py2."""
+        node = item.add_xml_child(section)
+        if attributes:
+            node.ordered_attributes = attributes
+
 except ImportError:
     from io import StringIO  # Python 3
+
+    def add_xml_child(item, section, _attributes):
+        """Set ordered attributes py3."""
+        item.add_xml_child(section)
 
 from . import indent
 
@@ -19,6 +30,7 @@ def to_int(text):
 
 class AbstractItem:  # pylint: disable=too-few-public-methods,no-init
     """Abstract class for xml item."""
+
     def is_valid(self):
         """Check for valid field values."""
         return bool(self)
@@ -26,6 +38,7 @@ class AbstractItem:  # pylint: disable=too-few-public-methods,no-init
 
 class DistItem(AbstractItem):
     """Abstract class for item on dist."""
+
     field_typeobj = 'IDTYPEOBJ'
     field_odometer = 'ODOMETER'
     field_comment = 'REM'
@@ -48,6 +61,7 @@ class DistItem(AbstractItem):
     ]
 
     def __init__(self):
+        """Abstract item of section."""
         self.objtype = None
         self.dist = None
         self.comment = ''
@@ -104,9 +118,11 @@ class DistItem(AbstractItem):
 
 class Section:
     """Abstract class for xml section."""
+
     item_attributes = None
 
     def __init__(self, infotech, cls, section):
+        """Abstract section of infotech object."""
         self.infotech = infotech
         self.cls = cls
         self.section = section
@@ -148,9 +164,7 @@ class Section:
         section.clear()
 
         for item in self.items:
-            node = item.add_xml_child(section)
-            if self.item_attributes:
-                node.ordered_attributes = self.item_attributes
+            add_xml_child(item, section, self.item_attributes)
 
     def reverse(self, total_length):
         """Reverse vector of objects and modify self.infotech.xml."""

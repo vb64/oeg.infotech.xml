@@ -3,14 +3,28 @@
 try:
     from StringIO import StringIO, StringIO as BytesIO  # pylint: disable=reimported
     from .ordered_attrib import ET
+
+    def xml_to_string(obj):
+        """Dump ET to string py2."""
+        output = BytesIO()
+        obj.xml.write(output, encoding=obj.codepage)
+        return output.getvalue()
+
 except ImportError:
     from io import StringIO  # Python 3
     from io import BytesIO
     from xml.etree import ElementTree as ET
 
+    def xml_to_string(obj):
+        """Dump ET to string py3."""
+        output = BytesIO()
+        obj.xml.write(output, encoding=obj.codepage, method='html')
+        return output.getvalue().decode(obj.codepage)
+
 
 class XmlFormat:  # pylint: disable=too-few-public-methods,no-init
     """Xml format type."""
+
     Infotech = 0
     Iust = 1
 
@@ -36,6 +50,7 @@ def numerate(items, from_index):
 
 def indent(elem, level=0, ident_item="    "):
     """In-place prettyprint formatter.
+
     http://effbot.org/zone/element-lib.htm#prettyprint
     """
     i = "\n" + level*ident_item
@@ -55,6 +70,7 @@ def indent(elem, level=0, ident_item="    "):
 
 class Infotech:
     """Infotech xml export."""
+
     typobj_section = 'TYPEOBJS'
     typobj_item = 'TYPEOBJ'
     typobj_id = 'IDTYPEOBJ'
@@ -74,6 +90,7 @@ class Infotech:
 """
 
     def __init__(self, codepage="windows-1251", xml_format=XmlFormat.Infotech):
+        """New object with given format."""
         self.xml = ET.parse(StringIO(self.template))
         self.obj_dict = {}
         self.codepage = codepage
@@ -88,13 +105,15 @@ class Infotech:
         self.pigpass = pigpass.Section(self)
 
     def __unicode__(self):
+        """Dump to unicode py2."""
         output = BytesIO()
         self.xml.write(output, encoding=self.codepage)
 
-        return output.getvalue()
+        return output.getvalue().decode(self.codepage)
 
     def __str__(self):
-        return self.__unicode__()
+        """Dump to string py2/3."""
+        return xml_to_string(self)
 
     @classmethod
     def from_file(cls, file_name, xml_format=XmlFormat.Infotech):

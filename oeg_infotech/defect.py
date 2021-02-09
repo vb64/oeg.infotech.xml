@@ -6,12 +6,14 @@ from . import reverse_orient, XmlFormat
 
 class Item(DistItem):  # pylint: disable=too-many-instance-attributes
     """Defect item from <DEFECTS> xml section.
+
     <DEF
       IDTYPEOBJ="990004698869" ODOMETER="145"
       L_OTCH="170" W_OTCH="309" V_MIN_OTCH="5" V_MAX_OTCH="5" ORIENT1="7.2" ORIENT2="8.1" NUMDEF="2" REM=""
       KBD="0.70" PBEZ="" TIME_LIMIT="23.686" PBEZ_PERCENT="" METHOD="6907370"
     />
     """
+
     xml_node_name = 'DEF'
     field_length = 'L_OTCH'
     field_width = 'W_OTCH'
@@ -39,6 +41,7 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
     field_iust_need_review = 'IUST_NEED_REVIEW'
 
     def __init__(self, xml_format=XmlFormat.Infotech):
+        """Def section item with given format."""
         DistItem.__init__(self)
 
         self.xml_format = xml_format
@@ -170,9 +173,11 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
 
 class Section(InfotechSection):
     """<DEFECTS> xml section."""
+
     tag = 'DEFECTS'
 
     def __init__(self, infotech):
+        """Def section of infotech oblect."""
         InfotechSection.__init__(self, infotech, Item, Section.tag)
 
         self.item_attributes = DistItem.dist_attribs + [

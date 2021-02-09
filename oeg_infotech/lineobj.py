@@ -31,10 +31,12 @@ REVERTED = {
 
 class Item(DistItem):
     """Object item from <LINEOBJS> xml section.
+
     <PLOBJ
       IDTYPEOBJ="990006537229" ODOMETER="0" NAME_MARKER="M1" L_LCH="" REM=""
     />
     """
+
     xml_node_name = 'PLOBJ'
     field_name_marker = 'NAME_MARKER'
     field_piketag_km = 'L_LCH'
@@ -43,6 +45,7 @@ class Item(DistItem):
     field_iust_type = 'IUST_TYPE'
 
     def __init__(self, xml_format=XmlFormat.Infotech):
+        """Lineobj section item with given format."""
         DistItem.__init__(self)
         self.xml_format = xml_format
 
@@ -94,9 +97,11 @@ class Item(DistItem):
 
 class Section(InfotechSection):
     """<LINEOBJS> xml section."""
+
     tag = 'LINEOBJS'
 
     def __init__(self, infotech):
+        """Lineobj section of infotech object."""
         InfotechSection.__init__(self, infotech, Item, Section.tag)
 
         self.item_attributes = DistItem.dist_attribs + [
