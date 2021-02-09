@@ -14,6 +14,8 @@ endif
 SOURCE = oeg_infotech
 TESTS = tests
 PYTEST = $(PTEST) --cov=$(SOURCE) --cov-report term:skip-covered
+LINT = $(PYTHON) -m pylint
+LINT3 = $(LINT) --init-hook="sys.path.insert(0, './')"
 
 all: tests
 
@@ -25,13 +27,21 @@ tests: flake8 lint
 	$(PYTEST) --durations=5 $(TESTS)
 	$(COVERAGE) html --skip-covered
 
+tests3: flake8 lint3
+	$(PYTEST) --durations=5 $(TESTS)
+	$(COVERAGE) html --skip-covered
+
 flake8:
 	$(PYTHON) -m flake8 --max-line-length=120 $(TESTS)
 	$(PYTHON) -m flake8 --max-line-length=120 $(SOURCE)
 
 lint:
-	$(PYTHON) -m pylint $(TESTS)/test
-	$(PYTHON) -m pylint $(SOURCE)
+	$(LINT) $(TESTS)/test
+	$(LINT) $(SOURCE)
+
+lint3:
+	$(LINT3) $(TESTS)/test
+	$(LINT3) $(SOURCE)
 
 dist:
 	$(PYTHON) setup.py sdist bdist_wheel

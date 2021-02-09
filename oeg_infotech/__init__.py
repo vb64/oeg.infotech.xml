@@ -2,11 +2,11 @@
 """Infotech staff."""
 try:
     from StringIO import StringIO, StringIO as BytesIO  # pylint: disable=reimported
+    from .ordered_attrib import ET
 except ImportError:
     from io import StringIO  # Python 3
     from io import BytesIO
-
-from .ordered_attrib import ET
+    from xml.etree import ElementTree as ET
 
 
 class XmlFormat:  # pylint: disable=too-few-public-methods,no-init
