@@ -10,6 +10,10 @@ try:
         obj.xml.write(output, encoding=obj.codepage)
         return output.getvalue()
 
+    def utf8_unicode(text):
+        """Literal utf-8 to unicode py2."""
+        return text.decode('utf-8')
+
 except ImportError:
     from io import StringIO  # Python 3
     from io import BytesIO
@@ -20,6 +24,10 @@ except ImportError:
         output = BytesIO()
         obj.xml.write(output, encoding=obj.codepage, method='html')
         return output.getvalue().decode(obj.codepage)
+
+    def utf8_unicode(text):
+        """Literal utf-8 to unicode py3."""
+        return text
 
 
 class XmlFormat:  # pylint: disable=too-few-public-methods,no-init
@@ -162,7 +170,7 @@ class Infotech:
 
     def fix(self):
         """Repair umdp-1400 data in PIGPASS section."""
-        umdp = u'УМДП-1400'  # encode(self.codepage)
+        umdp = utf8_unicode('УМДП-1400')
         umdp_key = None
 
         for key, val in self.obj_dict.items():
