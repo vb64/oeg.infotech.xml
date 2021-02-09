@@ -199,7 +199,7 @@ class Infotech:
             try:
                 self.welds.add_tube(Tube.UNKNOWN, current_length, int(item))
                 if Tube.UNKNOWN not in self.obj_dict:
-                    self.obj_dict[Tube.UNKNOWN] = NAME[Tube.UNKNOWN]
+                    self.obj_dict[Tube.UNKNOWN] = utf8_unicode(NAME[Tube.UNKNOWN])
 
                 is_updated = True
 
