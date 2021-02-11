@@ -40,6 +40,14 @@ assert 'IPL_INSPECT' in xml_string
 ```bash
 git clone git@github.com:vb64/oeg.infotech.xml.git
 cd oeg.infotech.xml
+```
+При использовании Python 3.8, 3.9:
+```bash
+$ make setup3 PYTHON_BIN=/path/to/python3/executable
+make tests3
+```
+При использовании Python 2.7:
+```bash
 make setup PYTHON_BIN=/path/to/python27/executable
 make tests
 ```
