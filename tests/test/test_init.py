@@ -37,6 +37,8 @@ class TestInit(TestInfotech):
 
         assert 'IPL_INSPECT' in "{}".format(info)
         assert info.defects.as_csv()
+        assert info.lineobjects.as_csv()
+        assert info.welds.as_csv()
 
     def test_navigation(self):
         """Navigation data."""

@@ -43,6 +43,11 @@ class TestInspection(TestInfotech):
         assert len(info.welds.items) == 23
 
         assert not info.pigpass.is_navigate()
+        try:
+            text = info.__unicode__()
+        except TypeError:
+            text = True  # Python 3
+        assert text
 
     def test_navigate(self):
         """Inspection with navigate data."""
@@ -59,3 +64,9 @@ class TestInspection(TestInfotech):
         assert not info.pigpass.is_navigate()
         info.pigpass.items[0].insptype = PassType.NAVIGATE
         assert info.pigpass.is_navigate()
+        assert info.welds.as_csv(with_navigation=True)
+
+        assert not info.is_navigate
+        info.is_navigate = True
+        info.rebuild_typeobjs()
+        assert info.is_navigate
