@@ -5,13 +5,31 @@ from . import TestInfotech
 
 
 class TestInspection(TestInfotech):
-    """
-    inspection
-    """
+    """Check inspection xml."""
+
+    def test_ordered_attributes(self):
+        """Test attributes order in generated xml."""
+        from oeg_infotech import Infotech
+
+        fname = self.fixture('1736.xml')
+        title_line = open(fname).readlines()[1]
+        assert 'IPL_INSPECT' in title_line
+
+        info = Infotech.from_file(fname)
+        root = info.xml.getroot()
+
+        try:
+            root.ordered_attributes = [
+              'NLCH', 'PLACE', 'L1', 'KZ_TYPE', 'L2', 'KP_TYPE', 'ISP',
+              'INSPECTION_START_DATE', 'INSPECTION_END_DATE',
+            ]
+        except AttributeError:
+            pass  # Python3
+
+        assert title_line in info.reverse(), "Wrong attribute order in IPL_INSPECT"
+
     def test_from_file(self):
-        """
-        inspection from xml
-        """
+        """Inspection from xml."""
         from oeg_infotech import Infotech
         from oeg_infotech.codes import PigType
 
@@ -27,9 +45,7 @@ class TestInspection(TestInfotech):
         assert not info.pigpass.is_navigate()
 
     def test_navigate(self):
-        """
-        inspection with navigate data
-        """
+        """Inspection with navigate data."""
         from oeg_infotech import Infotech
         from oeg_infotech.codes import PassType
 
