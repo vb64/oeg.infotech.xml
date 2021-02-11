@@ -6,6 +6,7 @@ from . import TestInfotech
 
 class TestInit(TestInfotech):
     """Infotech core function."""
+
     @staticmethod
     def test_reverse_orient():
         """Check reverse_orient."""
