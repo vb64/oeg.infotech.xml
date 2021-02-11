@@ -168,7 +168,7 @@ class Section:
 
     def reverse(self, total_length):
         """Reverse vector of objects and modify self.infotech.xml."""
-        self._items = reversed(self.items)
+        self._items = list(reversed(self.items))
         section = self.infotech.xml.getroot().find(self.section)
         section.clear()
         object_index = 1

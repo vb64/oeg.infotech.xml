@@ -1,6 +1,7 @@
 """
 make test T=test_inspection.py
 """
+import io
 from . import TestInfotech
 
 
@@ -12,7 +13,8 @@ class TestInspection(TestInfotech):
         from oeg_infotech import Infotech
 
         fname = self.fixture('1736.xml')
-        title_line = open(fname).readlines()[1]
+        inp = io.open(fname, encoding='windows-1251')
+        title_line = inp.readlines()[1]
         assert 'IPL_INSPECT' in title_line
 
         info = Infotech.from_file(fname)
@@ -26,7 +28,11 @@ class TestInspection(TestInfotech):
         except AttributeError:
             pass  # Python3
 
-        assert title_line in info.reverse(), "Wrong attribute order in IPL_INSPECT"
+        msg = "Wrong attribute order in IPL_INSPECT"
+        try:
+            assert title_line.encode('windows-1251') in info.reverse(), msg
+        except TypeError:  # Python 3
+            assert title_line in str(info.reverse()), msg
 
     def test_from_file(self):
         """Inspection from xml."""
