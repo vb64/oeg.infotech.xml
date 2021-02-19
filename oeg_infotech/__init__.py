@@ -1,23 +1,44 @@
 # coding: utf-8
-"""
-Infotech staff
-"""
-from StringIO import StringIO, StringIO as BytesIO  # pylint: disable=reimported
-from .ordered_attrib import ET
+"""Infotech staff."""
+try:
+    from StringIO import StringIO, StringIO as BytesIO  # pylint: disable=reimported
+    from .ordered_attrib import ET
+
+    def xml_to_string(obj):
+        """Dump ET to string py2."""
+        output = BytesIO()
+        obj.xml.write(output, encoding=obj.codepage)
+        return output.getvalue()
+
+    def utf8_unicode(text):
+        """Literal utf-8 to unicode py2."""
+        return text.decode('utf-8')
+
+except ImportError:
+    from io import StringIO  # Python 3
+    from io import BytesIO
+    from xml.etree import ElementTree as ET
+
+    def xml_to_string(obj):
+        """Dump ET to string py3."""
+        output = BytesIO()
+        obj.xml.write(output, encoding=obj.codepage, method='html')
+        return output.getvalue().decode(obj.codepage)
+
+    def utf8_unicode(text):
+        """Literal utf-8 to unicode py3."""
+        return text
 
 
-class XmlFormat(object):  # pylint: disable=too-few-public-methods
-    """
-    xml type
-    """
+class XmlFormat:  # pylint: disable=too-few-public-methods,no-init
+    """Xml format type."""
+
     Infotech = 0
     Iust = 1
 
 
 def reverse_orient(orient):
-    """
-    reverse orientation
-    """
+    """Reverse orientation."""
     if not orient:
         return orient
 
@@ -29,18 +50,16 @@ def reverse_orient(orient):
 
 
 def numerate(items, from_index):
-    """
-    enumerate items from given from_index
-    """
+    """Enumerate items from given from_index."""
     for item in items:
         item.number = "{}".format(from_index)
         from_index += 1
 
 
 def indent(elem, level=0, ident_item="    "):
-    """
+    """In-place prettyprint formatter.
+
     http://effbot.org/zone/element-lib.htm#prettyprint
-    in-place prettyprint formatter
     """
     i = "\n" + level*ident_item
     if len(elem):  # pylint: disable=len-as-condition
@@ -57,10 +76,9 @@ def indent(elem, level=0, ident_item="    "):
             elem.tail = i
 
 
-class Infotech(object):
-    """
-    Infotech xml export
-    """
+class Infotech:
+    """Infotech xml export."""
+
     typobj_section = 'TYPEOBJS'
     typobj_item = 'TYPEOBJ'
     typobj_id = 'IDTYPEOBJ'
@@ -80,32 +98,34 @@ class Infotech(object):
 """
 
     def __init__(self, codepage="windows-1251", xml_format=XmlFormat.Infotech):
+        """New object with given format."""
         self.xml = ET.parse(StringIO(self.template))
         self.obj_dict = {}
         self.codepage = codepage
         self.xml_format = xml_format
         self.is_navigate = None
 
-        from . import defect, weld, lineobj, pigpass
+        from . import defect, weld, lineobj, pigpass  # pylint: disable=cyclic-import
+
         self.welds = weld.Section(self)
         self.defects = defect.Section(self)
         self.lineobjects = lineobj.Section(self)
         self.pigpass = pigpass.Section(self)
 
     def __unicode__(self):
+        """Dump to unicode py2."""
         output = BytesIO()
         self.xml.write(output, encoding=self.codepage)
 
-        return output.getvalue()
+        return output.getvalue().decode(self.codepage)
 
     def __str__(self):
-        return self.__unicode__()
+        """Dump to string py2/3."""
+        return xml_to_string(self)
 
     @classmethod
     def from_file(cls, file_name, xml_format=XmlFormat.Infotech):
-        """
-        load data from xml file
-        """
+        """Load data from xml file."""
         obj = cls(xml_format=xml_format)
         obj.xml = ET.parse(file_name)
         sect = obj.xml.getroot().find(obj.typobj_section)
@@ -114,9 +134,7 @@ class Infotech(object):
         return obj
 
     def rebuild_typeobjs(self):
-        """
-        generate new content for TYPEOBJS section of xml, based on obj_dict data
-        """
+        """Generate new content for TYPEOBJS section of xml, based on obj_dict data."""
         section = self.xml.getroot().find(self.typobj_section)
         section.clear()
 
@@ -133,21 +151,15 @@ class Infotech(object):
             title.text = val
 
     def total_dist(self):
-        """
-        return length of inspection
-        """
+        """Return length of inspection."""
         return self.welds.items[-1].end()
 
     def start_dist(self):
-        """
-        return start distance of inspection
-        """
+        """Return start distance of inspection."""
         return self.welds.items[0].dist
 
     def reverse(self):
-        """
-        reverse vector of objects and return string dump of updated xml
-        """
+        """Reverse vector of objects and return string dump of updated xml."""
         total_length = self.total_dist()
         self.lineobjects.reverse(total_length)
         self.welds.reverse(total_length)
@@ -157,10 +169,8 @@ class Infotech(object):
         return "{}".format(self)
 
     def fix(self):
-        """
-        repair umdp-1400 data in PIGPASS section
-        """
-        umdp = u'УМДП-1400'  # encode(self.codepage)
+        """Repair umdp-1400 data in PIGPASS section."""
+        umdp = utf8_unicode('УМДП-1400')
         umdp_key = None
 
         for key, val in self.obj_dict.items():
@@ -180,9 +190,7 @@ class Infotech(object):
         return "{}".format(self)
 
     def join(self, file_list):
-        """
-        join several xml files and connect tubes
-        """
+        """Join several xml files and connect tubes."""
         from .codes import Tube, NAME
         is_updated = False
 
@@ -191,7 +199,7 @@ class Infotech(object):
             try:
                 self.welds.add_tube(Tube.UNKNOWN, current_length, int(item))
                 if Tube.UNKNOWN not in self.obj_dict:
-                    self.obj_dict[Tube.UNKNOWN] = NAME[Tube.UNKNOWN]
+                    self.obj_dict[Tube.UNKNOWN] = utf8_unicode(NAME[Tube.UNKNOWN])
 
                 is_updated = True
 

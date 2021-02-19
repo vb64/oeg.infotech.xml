@@ -5,13 +5,10 @@ from . import TestInfotech
 
 
 class TestDanger(TestInfotech):
-    """
-    defects danger stuff
-    """
+    """Defects danger stuff."""
+
     def check_stats(self, info, val_types, val_methods, counts):
-        """
-        check_stats
-        """
+        """Test check_stats."""
         from oeg_infotech.base import DistItem
         from oeg_infotech import defect
 
@@ -20,12 +17,10 @@ class TestDanger(TestInfotech):
         self.assert_list(stats_values[DistItem.field_typeobj], val_types)
         self.assert_list(stats_values[defect.Item.field_method_id], val_methods)
         for item in counts:
-            self.assertEqual(stats_counts[item], counts[item])
+            assert stats_counts[item] == counts[item]
 
     def test_danger_stats(self):
-        """
-        danger_stats
-        """
+        """Test danger_stats."""
         from oeg_infotech import Infotech, defect, codes
 
         self.check_stats(

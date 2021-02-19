@@ -5,14 +5,11 @@ from . import TestInfotech
 
 
 class TestInit(TestInfotech):
-    """
-    Infotech core function
-    """
+    """Infotech core function."""
+
     @staticmethod
     def test_reverse_orient():
-        """
-        reverse_orient
-        """
+        """Check reverse_orient."""
         from oeg_infotech import reverse_orient
 
         assert reverse_orient('') == ''
@@ -24,9 +21,7 @@ class TestInit(TestInfotech):
         assert reverse_orient('9.5') == '2,5'
 
     def test_infotech(self):
-        """
-        package
-        """
+        """Check from_file."""
         from oeg_infotech import Infotech
 
         info = Infotech.from_file(self.fixture('1736.xml'))
@@ -42,20 +37,18 @@ class TestInit(TestInfotech):
 
         assert 'IPL_INSPECT' in "{}".format(info)
         assert info.defects.as_csv()
+        assert info.lineobjects.as_csv()
+        assert info.welds.as_csv()
 
     def test_navigation(self):
-        """
-        navigation
-        """
+        """Navigation data."""
         from oeg_infotech import Infotech
 
         info = Infotech.from_file(self.fixture('navigation.xml'))
         assert 'IPL_INSPECT' in info.reverse()
 
     def test_iust(self):
-        """
-        iust format
-        """
+        """Iust format."""
         from oeg_infotech import Infotech, XmlFormat
 
         info = Infotech.from_file(self.fixture('1736.xml'), xml_format=XmlFormat.Iust)

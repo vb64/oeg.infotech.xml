@@ -1,12 +1,9 @@
-"""
-Inspection tool types
-"""
+"""Inspection tool types."""
 
 
-class PigType:  # pylint: disable=old-style-class,no-init,too-few-public-methods
-    """
-    codes for pig tools
-    """
+class PigType:  # pylint: disable=no-init,too-few-public-methods
+    """Codes for pig tools."""
+
     MFL = '990005096296'
     TFI = '990004033563'
     CALIPER_MECH = '990004033561'

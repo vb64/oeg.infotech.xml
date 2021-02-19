@@ -1,19 +1,18 @@
-"""
-WELDS section
-"""
+"""WELDS section."""
 from .ordered_attrib import ET
 from .base import DistItem, Section as InfotechSection, to_int
 from . import reverse_orient, XmlFormat
 
 
 class Item(DistItem):  # pylint: disable=too-many-instance-attributes
-    """
-    weld item from <WELDS> xml section
+    """Weld item from <WELDS> xml section.
+
     <WLD
       IDTYPEOBJ="2097791" ODOMETER="0"
       NUM_TUBE="1" DL_TUBE="752" THICK="19.5" PSH1="11.6" PSH2="" REM=""
     />
     """
+
     xml_node_name = 'WLD'
     field_number = 'NUM_TUBE'
     field_length = 'DL_TUBE'
@@ -41,7 +40,8 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
     field_iust_cover_type = 'IUST_COVER_TYPE'
 
     def __init__(self, xml_format=XmlFormat.Infotech):
-        super(Item, self).__init__()
+        """Weld section item with given format."""
+        DistItem.__init__(self)
 
         self.xml_format = xml_format
         self.number = ''
@@ -70,9 +70,7 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
 
     @classmethod
     def from_xml(cls, xml_item, xml_format=XmlFormat.Infotech):
-        """
-        Create weld item from existing xml element
-        """
+        """Create weld item from existing xml element."""
         obj = cls(xml_format=xml_format)
         obj.fill_from_xml(xml_item)
 
@@ -104,15 +102,11 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
         return obj
 
     def end(self):
-        """
-        Return distance for end of tube
-        """
+        """Return distance for end of tube."""
         return self.dist + self.length
 
     def as_csv_row(self, infotech, with_navigation=False):
-        """
-        Return list of field values for csv string
-        """
+        """Return list of field values for csv string."""
         columns = [
           self.number,
           "{}".format(self.length),
@@ -120,25 +114,21 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
           self.hor1.replace('.', ','),
           self.hor2.replace('.', ','),
         ]
-        base_columns = super(Item, self).as_csv_row(infotech, with_navigation=with_navigation)
+        base_columns = DistItem.as_csv_row(self, infotech, with_navigation=with_navigation)
 
         return base_columns[:2] + columns + base_columns[2:]
 
     def reverse(self, total_length, object_index):
-        """
-        Reverse weld
-        """
+        """Reverse weld."""
         self.dist = total_length - (self.dist + self.length)
         self.number = "{}".format(object_index)
         self.hor1 = reverse_orient(self.hor1)
         self.hor2 = reverse_orient(self.hor2)
 
     def add_xml_child(self, parent_node):
-        """
-        Create and add xmml node of weld to parent xml node
-        """
+        """Create and add xmml node of weld to parent xml node."""
         node = ET.SubElement(parent_node, Item.xml_node_name)
-        super(Item, self).base_xml(node)
+        DistItem.base_xml(self, node)
         node.set(Item.field_number, self.number)
         node.set(Item.field_length, "{}".format(self.length))
         node.set(Item.field_thick, self.thick)
@@ -168,13 +158,13 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
 
 
 class Section(InfotechSection):
-    """
-    <WELDS> xml section
-    """
+    """<WELDS> xml section."""
+
     tag = 'WELDS'
 
     def __init__(self, infotech):
-        super(Section, self).__init__(infotech, Item, Section.tag)
+        """Weld section of infotech object."""
+        InfotechSection.__init__(self, infotech, Item, Section.tag)
 
         self.item_attributes = DistItem.dist_attribs + [
           Item.field_number,
@@ -207,18 +197,14 @@ class Section(InfotechSection):
             ]
 
     def as_csv(self, with_navigation=False):
-        """
-        Dump weld section content as csv string
-        """
+        """Dump weld section content as csv string."""
         column_titles = [
           'Name', 'Distance', 'Tube number', 'Tube length', 'Thick', 'Weld1', 'Weld2', 'Comment'
         ]
-        return super(Section, self).as_csv_body('Welds table', column_titles, with_navigation=with_navigation)
+        return InfotechSection.as_csv_body(self, 'Welds table', column_titles, with_navigation=with_navigation)
 
     def add_tube(self, objtype, tube_dist, tube_length):
-        """
-        Add new tube with given type, dist and length to thr end of record
-        """
+        """Add new tube with given type, dist and length to thr end of record."""
         item = Item()
 
         item.objtype = objtype

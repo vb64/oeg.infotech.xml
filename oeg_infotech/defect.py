@@ -1,20 +1,19 @@
-"""
-DEFECTS section
-"""
+"""DEFECTS section."""
 from .ordered_attrib import ET
 from .base import Section as InfotechSection, DistItem, to_int
 from . import reverse_orient, XmlFormat
 
 
 class Item(DistItem):  # pylint: disable=too-many-instance-attributes
-    """
-    defect item from <DEFECTS> xml section
+    """Defect item from <DEFECTS> xml section.
+
     <DEF
       IDTYPEOBJ="990004698869" ODOMETER="145"
       L_OTCH="170" W_OTCH="309" V_MIN_OTCH="5" V_MAX_OTCH="5" ORIENT1="7.2" ORIENT2="8.1" NUMDEF="2" REM=""
       KBD="0.70" PBEZ="" TIME_LIMIT="23.686" PBEZ_PERCENT="" METHOD="6907370"
     />
     """
+
     xml_node_name = 'DEF'
     field_length = 'L_OTCH'
     field_width = 'W_OTCH'
@@ -42,7 +41,8 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
     field_iust_need_review = 'IUST_NEED_REVIEW'
 
     def __init__(self, xml_format=XmlFormat.Infotech):
-        super(Item, self).__init__()
+        """Def section item with given format."""
+        DistItem.__init__(self)
 
         self.xml_format = xml_format
         self.length = ''
@@ -71,9 +71,7 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
 
     @classmethod
     def from_xml(cls, xml_item, xml_format=XmlFormat.Infotech):
-        """
-        create defect item from existing xml element
-        """
+        """Create defect item from existing xml element."""
         obj = cls(xml_format=xml_format)
         obj.fill_from_xml(xml_item)
 
@@ -105,9 +103,7 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
         return obj
 
     def as_csv_row(self, infotech, with_navigation=False):
-        """
-        return list of defect field values for csv string
-        """
+        """Return list of defect field values for csv string."""
         method = ''
         if self.method_id in infotech.obj_dict:
             method = infotech.obj_dict[self.method_id]
@@ -125,14 +121,12 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
           self.safe_pressure_persent,
           method,
         ]
-        base_columns = super(Item, self).as_csv_row(infotech, with_navigation=with_navigation)
+        base_columns = DistItem.as_csv_row(self, infotech, with_navigation=with_navigation)
 
         return [self.number] + base_columns[:2] + columns + base_columns[2:]
 
     def reverse(self, total_length, object_index):
-        """
-        reverse defect
-        """
+        """Reverse defect."""
         self.dist = total_length - self.dist
         if self.length:
             self.dist -= int(self.length / 10)
@@ -146,11 +140,9 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
         self.iust_to_weld = tmp
 
     def add_xml_child(self, parent_node):
-        """
-        create and add xmml node of defect to parent xml node
-        """
+        """Create and add xmml node of defect to parent xml node."""
         node = ET.SubElement(parent_node, Item.xml_node_name)
-        super(Item, self).base_xml(node)
+        DistItem.base_xml(self, node)
         node.set(Item.field_length, "{}".format(self.length))
         node.set(Item.field_width, "{}".format(self.width))
         node.set(Item.field_loss_min, "{}".format(self.loss_min))
@@ -180,13 +172,13 @@ class Item(DistItem):  # pylint: disable=too-many-instance-attributes
 
 
 class Section(InfotechSection):
-    """
-    <DEFECTS> xml section
-    """
+    """<DEFECTS> xml section."""
+
     tag = 'DEFECTS'
 
     def __init__(self, infotech):
-        super(Section, self).__init__(infotech, Item, Section.tag)
+        """Def section of infotech oblect."""
+        InfotechSection.__init__(self, infotech, Item, Section.tag)
 
         self.item_attributes = DistItem.dist_attribs + [
           Item.field_length,
@@ -219,9 +211,7 @@ class Section(InfotechSection):
             ]
 
     def as_csv(self, with_navigation=False):
-        """
-        dump defects section content as csv string
-        """
+        """Dump defects section content as csv string."""
         column_titles = [
           'Number',
           'Name', 'Distance',
@@ -229,12 +219,10 @@ class Section(InfotechSection):
           'KBD', 'Safe pressure', 'Time limit', 'Press percent', 'Method',
           'Comment',
         ]
-        return super(Section, self).as_csv_body('Defects table', column_titles, with_navigation=with_navigation)
+        return InfotechSection.as_csv_body(self, 'Defects table', column_titles, with_navigation=with_navigation)
 
     def danger_stats(self):
-        """
-        generate statistics about defects danger data
-        """
+        """Generate statistics about defects danger data."""
         stats_values = {
           DistItem.field_typeobj: [],
           Item.field_method_id: [],

@@ -1,13 +1,10 @@
 # coding: utf-8
-"""
-Pipeline features
-"""
+"""Pipeline features."""
 
 
-class Feature:  # pylint: disable=old-style-class,no-init,too-few-public-methods
-    """
-    codes for detected features
-    """
+class Feature:  # pylint: disable=no-init,too-few-public-methods
+    """Codes for detected features."""
+
     ANOMALY = '990006537198'  # 990006537148 ANOM Аномалия 990006537148 OTHE
     NESVAR_STYK = '990006537195'  # 990006537148 ANOM Несваренный стык патрона 990006537195 UWCA
     POTERYA_CONTACTA = '990006548776'  # 990006537148 ANOM Аномалия 990006537148 OTHE
