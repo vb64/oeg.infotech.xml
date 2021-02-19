@@ -1,5 +1,5 @@
 # Библиотека Python для обработки xml файлов "Инфотех"
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/vb64/oeg.infotech.xml/oeg.infotech.xml%20tests?label=Python%202.7&style=plastic)](https://github.com/vb64/oeg.infotech.xml/actions?query=workflow%3A%22oeg.infotech.xml+tests%22)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/vb64/oeg.infotech.xml/oeg.infotech.xml%20tests?label=Python%202.7%203.8%203.9%20PEP%20257&style=plastic)](https://github.com/vb64/oeg.infotech.xml/actions?query=workflow%3A%22oeg.infotech.xml+tests%22)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1c0b638957f44500a10694410a238294)](https://www.codacy.com/manual/vb64/oeg.infotech.xml?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=vb64/oeg.infotech.xml&amp;utm_campaign=Badge_Grade)
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/1c0b638957f44500a10694410a238294)](https://www.codacy.com/manual/vb64/oeg.infotech.xml?utm_source=github.com&utm_medium=referral&utm_content=vb64/oeg.infotech.xml&utm_campaign=Badge_Coverage)
 
@@ -40,6 +40,14 @@ assert 'IPL_INSPECT' in xml_string
 ```bash
 git clone git@github.com:vb64/oeg.infotech.xml.git
 cd oeg.infotech.xml
+```
+При использовании Python 3.8, 3.9:
+```bash
+$ make setup3 PYTHON_BIN=/path/to/python3/executable
+make tests3
+```
+При использовании Python 2.7:
+```bash
 make setup PYTHON_BIN=/path/to/python27/executable
 make tests
 ```

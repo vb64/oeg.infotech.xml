@@ -6,13 +6,10 @@ from . import TestInfotech
 
 
 class TestCommands(TestInfotech):
-    """
-    commands for xml export file
-    """
+    """Commands for xml export file."""
+
     def test_join(self):
-        """
-        join
-        """
+        """Join command."""
         from oeg_infotech import Infotech
 
         info = Infotech.from_file(self.fixture('1736.xml'))
@@ -21,10 +18,10 @@ class TestCommands(TestInfotech):
         defects1 = len(info.defects.items)
         lineobjects1 = len(info.lineobjects.items)
 
-        self.assertEqual(dist1, 17727)
-        self.assertEqual(welds1, 23)
-        self.assertEqual(defects1, 10)
-        self.assertEqual(lineobjects1, 6)
+        assert dist1 == 17727
+        assert welds1 == 23
+        assert defects1 == 10
+        assert lineobjects1 == 6
 
         info = Infotech.from_file(self.fixture('1737.xml'))
 
@@ -33,76 +30,72 @@ class TestCommands(TestInfotech):
         defects2 = len(info.defects.items)
         lineobjects2 = len(info.lineobjects.items)
 
-        self.assertEqual(dist2, 5589)
-        self.assertEqual(welds2, 5)
-        self.assertEqual(defects2, 2)
-        self.assertEqual(lineobjects2, 4)
+        assert dist2 == 5589
+        assert welds2 == 5
+        assert defects2 == 2
+        assert lineobjects2 == 4
 
         text = info.join(['1100', self.fixture('1736.xml')])
 
-        self.assertIn('IPL_INSPECT', text)
-        self.assertEqual(info.total_dist(), dist1 + dist2 + 1100)
-        self.assertEqual(len(info.welds.items), welds1 + welds2 + 1)
-        self.assertEqual(len(info.defects.items), defects1 + defects2)
-        self.assertEqual(len(info.lineobjects.items), lineobjects1 + lineobjects2)
+        assert 'IPL_INSPECT' in text
+        assert info.total_dist() == dist1 + dist2 + 1100
+        assert len(info.welds.items) == welds1 + welds2 + 1
+        assert len(info.defects.items) == defects1 + defects2
+        assert len(info.lineobjects.items) == lineobjects1 + lineobjects2
 
         text = info.join([])
-        self.assertIn('IPL_INSPECT', text)
+        assert 'IPL_INSPECT' in text
 
         text = info.join(['not_exist_file'])
-        self.assertIn('No such file or directory', text)
+        assert 'No such file or directory' in text
 
     def test_reverse(self):
-        """
-        reverse
-        """
+        """Reverse command."""
         from oeg_infotech import Infotech, lineobj, codes
         from oeg_infotech.base import DistItem
 
         info = Infotech.from_file(self.fixture('1736.xml'))
-        self.assertEqual(info.total_dist(), 17727)
+        assert info.total_dist() == 17727
         root = info.xml.getroot()
         l_section = root.find(lineobj.Section.tag)
-        self.assertEqual(int(l_section[0].get(DistItem.field_odometer)), 0)
-        self.assertEqual(int(l_section[-1].get(DistItem.field_odometer)), 17710)
+        assert int(l_section[0].get(DistItem.field_odometer)) == 0
+        assert int(l_section[-1].get(DistItem.field_odometer)) == 17710
 
-        self.assertEqual(l_section[1].get(DistItem.field_typeobj), codes.Feature.CASE_START)
-        self.assertEqual(l_section[2].get(DistItem.field_typeobj), codes.Feature.CASE_END)
+        assert l_section[1].get(DistItem.field_typeobj) == codes.Feature.CASE_START
+        assert l_section[2].get(DistItem.field_typeobj) == codes.Feature.CASE_END
 
         text = info.reverse()
 
-        self.assertIn('IPL_INSPECT', text)
+        assert 'IPL_INSPECT' in text
 
-        self.assertNotEqual(l_section[1].get(DistItem.field_typeobj), codes.Feature.CASE_START)
-        self.assertNotEqual(l_section[2].get(DistItem.field_typeobj), codes.Feature.CASE_END)
-        self.assertEqual(l_section[-2].get(DistItem.field_typeobj), codes.Feature.CASE_END)
-        self.assertEqual(l_section[-3].get(DistItem.field_typeobj), codes.Feature.CASE_START)
+        assert l_section[1].get(DistItem.field_typeobj) != codes.Feature.CASE_START
+        assert l_section[2].get(DistItem.field_typeobj) != codes.Feature.CASE_END
+        assert l_section[-2].get(DistItem.field_typeobj) == codes.Feature.CASE_END
+        assert l_section[-3].get(DistItem.field_typeobj) == codes.Feature.CASE_START
 
-        self.assertEqual(int(l_section[0].get(DistItem.field_odometer)), 17)
-        self.assertEqual(int(l_section[-1].get(DistItem.field_odometer)), 17727)
+        assert int(l_section[0].get(DistItem.field_odometer)) == 17
+        assert int(l_section[-1].get(DistItem.field_odometer)) == 17727
 
     def test_fix(self):
-        """
-        repair
-        """
+        """Repair command."""
         from oeg_infotech import Infotech
 
         info = Infotech.from_file(self.fixture('umdp-1400.xml'))
         pig = info.xml.getroot().find('PIGPASS')[1]
 
-        self.assertEqual(info.obj_dict['1'], u'УМДП-1400')
-        self.assertEqual(pig.attrib.get('IDTYPEOBJ', None), '1')
-        self.assertEqual(pig.attrib.get('MANUFACT_DATE', None), '')
-        self.assertEqual(pig.attrib.get('PIGTYPE', None), '2')
-        self.assertEqual(pig.attrib.get('OBSLTYPE', None), '5')
+        assert info.obj_dict['1'] == u'УМДП-1400'
+        assert pig.attrib.get('IDTYPEOBJ', None) == '1'
+        assert pig.attrib.get('MANUFACT_DATE', None) == ''
+        assert pig.attrib.get('PIGTYPE', None) == '2'
+        assert pig.attrib.get('OBSLTYPE', None) == '5'
 
         info.fix()
 
         pig = info.xml.getroot().find('PIGPASS')[1]
-        self.assertEqual(pig.attrib.get('IDTYPEOBJ', None), '1')
-        self.assertEqual(pig.attrib.get('MANUFACT_DATE', None), '2017')
-        self.assertEqual(pig.attrib.get('PIGTYPE', None), '990004033563')
-        self.assertEqual(pig.attrib.get('OBSLTYPE', None), '2')
+        assert pig.attrib.get('IDTYPEOBJ', None) == '1'
+        assert pig.attrib.get('MANUFACT_DATE', None) == '2017'
+        assert pig.attrib.get('PIGTYPE', None) == '990004033563'
+        assert pig.attrib.get('OBSLTYPE', None) == '2'
 
         info = Infotech.from_file(self.fixture('empty.xml'))
         info.fix()

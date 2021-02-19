@@ -1,12 +1,9 @@
-"""
-Inspection companies codes
-"""
+"""Inspection companies codes."""
 
 
-class Company:  # pylint: disable=old-style-class,no-init,too-few-public-methods
-    """
-    codes for companies
-    """
+class Company:  # pylint: disable=no-init,too-few-public-methods
+    """Codes for companies."""
+
     BSPC = '990003448249'
     AVTOGAZ = '990006595572'
     AEROCOSM = '4616685'

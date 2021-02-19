@@ -1,21 +1,19 @@
-"""
-PIGPASS section
-"""
+"""PIGPASS section."""
 from .ordered_attrib import ET
-from .codes import PassType
 from .base import Section as InfotechSection, AbstractItem
 from . import XmlFormat, indent
 
 
 class Item(AbstractItem):
-    """
-    object item from <PIGPASS> xml section
+    """Object item from <PIGPASS> xml section.
+
     <PASS
       IDTYPEOBJ="0" DATE1="25.05.2018 10:58:00" DATE2="25.05.2018 11:10:00"
       SPEED_AVERAGE="0.26" REM="" MANUFACTURER="xxxx" MANUFACT_DATE="2010"
       PIGTYPE="990005096296" OBSLTYPE="2"
     />
     """
+
     xml_node_name = 'PASS'
 
     field_typeobj = 'IDTYPEOBJ'
@@ -32,6 +30,7 @@ class Item(AbstractItem):
     field_iust_type = 'IUST_TYPE'
 
     def __init__(self, xml_format=XmlFormat.Infotech):
+        """Pigpass section item with given format."""
         self.xml_format = xml_format
         self.pig = None
         self.objtype = None
@@ -48,9 +47,7 @@ class Item(AbstractItem):
 
     @classmethod
     def from_xml(cls, xml_item, xml_format=XmlFormat.Infotech):
-        """
-        create item from xml item
-        """
+        """Create item from xml item."""
         obj = cls(xml_format=xml_format)
 
         obj.objtype = xml_item.attrib[Item.field_typeobj]
@@ -69,9 +66,7 @@ class Item(AbstractItem):
         return obj
 
     def add_xml_child(self, parent_node):
-        """
-        create and add pigpass xml node of object to parent xml node
-        """
+        """Create and add pigpass xml node of object to parent xml node."""
         node = ET.SubElement(parent_node, Item.xml_node_name)
 
         if self.xml_format == XmlFormat.Iust:
@@ -91,13 +86,13 @@ class Item(AbstractItem):
 
 
 class Section(InfotechSection):
-    """
-    <PIGPASS> xml section
-    """
+    """<PIGPASS> xml section."""
+
     tag = 'PIGPASS'
 
     def __init__(self, infotech):
-        super(Section, self).__init__(infotech, Item, Section.tag)
+        """Pigpass section of infotech object."""
+        InfotechSection.__init__(self, infotech, Item, Section.tag)
 
         self.item_attributes = [
           Item.field_typeobj,
@@ -115,12 +110,11 @@ class Section(InfotechSection):
             self.item_attributes.append(Item.field_iust_type)
 
     def is_navigate(self):
-        """
-        is navigate data present
-        """
+        """Return True if navigate data present."""
         if not self._items:
             return False
 
+        from .codes import PassType
         for pigpass in self._items:
             if pigpass.insptype in [PassType.NAVIGATE, PassType.COMPLEX_NAV]:
                 return True
@@ -128,9 +122,7 @@ class Section(InfotechSection):
         return False
 
     def reverse(self, total_length):
-        """
-        modify self.infotech.xml
-        """
+        """Modify self.infotech.xml."""
         self._items = self.items
         section = self.infotech.xml.getroot().find(self.section)
         section.clear()

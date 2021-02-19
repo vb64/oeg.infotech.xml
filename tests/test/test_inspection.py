@@ -1,17 +1,41 @@
 """
 make test T=test_inspection.py
 """
+import io
 from . import TestInfotech
 
 
 class TestInspection(TestInfotech):
-    """
-    inspection
-    """
+    """Check inspection xml."""
+
+    def test_ordered_attributes(self):
+        """Test attributes order in generated xml."""
+        from oeg_infotech import Infotech
+
+        fname = self.fixture('1736.xml')
+        inp = io.open(fname, encoding='windows-1251')
+        title_line = inp.readlines()[1]
+        assert 'IPL_INSPECT' in title_line
+
+        info = Infotech.from_file(fname)
+        root = info.xml.getroot()
+
+        try:
+            root.ordered_attributes = [
+              'NLCH', 'PLACE', 'L1', 'KZ_TYPE', 'L2', 'KP_TYPE', 'ISP',
+              'INSPECTION_START_DATE', 'INSPECTION_END_DATE',
+            ]
+        except AttributeError:
+            pass  # Python3
+
+        msg = "Wrong attribute order in IPL_INSPECT"
+        try:
+            assert title_line.encode('windows-1251') in info.reverse(), msg
+        except TypeError:  # Python 3
+            assert title_line in str(info.reverse()), msg
+
     def test_from_file(self):
-        """
-        inspection from xml
-        """
+        """Inspection from xml."""
         from oeg_infotech import Infotech
         from oeg_infotech.codes import PigType
 
@@ -25,11 +49,14 @@ class TestInspection(TestInfotech):
         assert len(info.welds.items) == 23
 
         assert not info.pigpass.is_navigate()
+        try:
+            text = info.__unicode__()
+        except TypeError:
+            text = True  # Python 3
+        assert text
 
     def test_navigate(self):
-        """
-        inspection with navigate data
-        """
+        """Inspection with navigate data."""
         from oeg_infotech import Infotech
         from oeg_infotech.codes import PassType
 
@@ -43,3 +70,9 @@ class TestInspection(TestInfotech):
         assert not info.pigpass.is_navigate()
         info.pigpass.items[0].insptype = PassType.NAVIGATE
         assert info.pigpass.is_navigate()
+        assert info.welds.as_csv(with_navigation=True)
+
+        assert not info.is_navigate
+        info.is_navigate = True
+        info.rebuild_typeobjs()
+        assert info.is_navigate

@@ -1,13 +1,12 @@
-"""
+"""Ordered attrib patch for py2.
+
 https://stackoverflow.com/questions/2741480/can-elementtree-be-told-to-preserve-the-order-of-attributes
 """
 import xml.etree.ElementTree as ET
 
 
 def get_items(elem):
-    """
-    sort attribs by given order, if set
-    """
+    """Sort attribs by given order, if set."""
     if not hasattr(elem, 'ordered_attributes'):
         return sorted(elem.items())
 
@@ -16,9 +15,7 @@ def get_items(elem):
 
 
 def _serialize_xml(write, elem, encoding, qnames, namespaces, short_empty_elements=None):
-    """
-    monkey patch for dump ordered attributes for xml element
-    """
+    """Monkey patch for dump ordered attributes for xml element."""
     tag = elem.tag
     text = elem.text
     if tag is ET.Comment:
